@@ -31,7 +31,7 @@ public class Crayon {
 		this.y = y;
 		image = new ImageWrapper(filename);
 		hitbox = new Hitbox(x+15, y, CRAYON_WIDTH -30, CRAYON_HEIGHT);
-		feetBox = new Hitbox(x+15, y+(CRAYON_HEIGHT*2)/3, CRAYON_WIDTH -30, CRAYON_HEIGHT/3);
+		feetBox = new Hitbox(x+15, y+(int)((CRAYON_HEIGHT*2)/3), CRAYON_WIDTH -30, (int)(CRAYON_HEIGHT/3));
 		spriteStage = 0;
 		ySpeed = 0;
 	}
@@ -67,7 +67,10 @@ public class Crayon {
 			Hitbox newFeet = feetBox;
 			newFeet.setHitbox(this.x, this.y+ySpeed, CRAYON_WIDTH, CRAYON_HEIGHT);
 			System.out.println("feetbox.getY = "+feetBox.getY());
-			for (int i = feetBox.getY()/Cell.CELL_HEIGHT; i<tiles.length;i++){
+			System.out.println("tiles[0].length = "+tiles[0].length);
+			System.out.println("tiles.length = "+tiles.length);
+			for (int i = (hitbox.getY()/Cell.CELL_HEIGHT); i<tiles.length;i++){
+				System.out.println("First i "+i);
 				if (i > 0){
 					if (tiles[i][feetBox.getX()/Cell.CELL_WIDTH] !=null){
 						collideY = i;
@@ -77,15 +80,20 @@ public class Crayon {
 					}
 				}
 			}
-			if (newFeet.getY()>=(collideY*Cell.CELL_HEIGHT)){
+			System.out.println("newFeet.getY()/cellheight = "+newFeet.getY()/Cell.CELL_HEIGHT);
+			System.out.println("collideY "+collideY);
+			if ((newFeet.getY()/Cell.CELL_HEIGHT)>=(collideY)){
 				if (collided){
-					this.y=(collideY*Cell.CELL_HEIGHT)-CRAYON_HEIGHT;
+					this.y=(collideY*Cell.CELL_HEIGHT)-CRAYON_HEIGHT-1;
 					System.out.println("THIS IS COLLIDE Y = "+collideY);
 				}
 				else{
 					this.y += ySpeed;
 					ySpeed += gravity;
 				}
+			}
+			else if (this.y+CRAYON_HEIGHT + ySpeed > collideY*Cell.CELL_HEIGHT){
+				this.y=(collideY*Cell.CELL_HEIGHT)-CRAYON_HEIGHT-1;
 			}
 			else{
 				this.y += ySpeed;
@@ -107,6 +115,9 @@ public class Crayon {
 		for(int i = 0; i < tiles.length; i++){
 			for(int j = 0; j < tiles[i].length; j++){
 				if(tiles[i][j] != null && hitbox.checkCollision(tiles[i][j].getHitbox())){
+					return true;
+				}
+				else if(tiles[i][j] != null && feetBox.checkCollision(tiles[i][j].getHitbox())){
 					return true;
 				}
 			}

@@ -4,10 +4,10 @@ import java.awt.Graphics;
 
 
 public class Hitbox {
-	private int width;
-	private int height;
-	private int x;
-	private int y;
+	public int width;
+	public int height;
+	public int x;
+	public int y;
 	
 	public Hitbox(int x, int y, int width, int height){
 		this.x = x;
@@ -45,7 +45,7 @@ public class Hitbox {
 		return y;
 	}
 
-	public void setHitbox(int x, int y, int widht, int height){
+	public void setHitbox(int x, int y, int width, int height){
 		this.x = x;
 		this.y = y;
 		this.width = width;
