@@ -12,13 +12,17 @@ public class Crayon {
 	public static final int CRAYON_WIDTH  = 50;
 	public static final int CRAYON_HEIGHT = 50;
 	
-	private int xSpeed;
-	
 	private int direction;  //-1 for left, 0 for still, 1 for right
+	private int xSpeed;
+	private int ySpeed;
+	
+	private boolean falling;
+	private static final double gravity = 1;
 	
 	private String filename = "Sprites/crayonMovementNew.png";
 	
 	private Hitbox hitbox;
+	private Hitbox feetBox;
 	
 	private int spriteStage;
 
@@ -27,10 +31,14 @@ public class Crayon {
 		this.y = y;
 		image = new ImageWrapper(filename);
 		hitbox = new Hitbox(x, y, CRAYON_WIDTH, CRAYON_HEIGHT);
+		feetBox = new Hitbox(x, y+(CRAYON_HEIGHT*2)/3, CRAYON_WIDTH, CRAYON_HEIGHT/3);
 		spriteStage = 0;
+		ySpeed = 0;
 	}
 	
 	public void move(){
+		
+		
 		if(direction == 1){
 			xSpeed = 4;
 			spriteStage++;
@@ -49,6 +57,11 @@ public class Crayon {
 			direction = 0;
 		}
 		
+		if(falling){
+			this.y += ySpeed;
+			ySpeed += gravity;
+		}
+		
 		hitbox.setHitbox(this.x, this.y, CRAYON_WIDTH, CRAYON_HEIGHT);
 	}
 	
@@ -61,6 +74,13 @@ public class Crayon {
 			for(int j = 0; j < tiles[i].length; j++){
 				hitbox.checkCollision(tiles[i][j].getHitbox());
 			}
+		}
+	}
+	
+	private void checkFeetCollision(Cell[][] tiles){
+		int feetX = feetBox.getX()/Cell.CELL_WIDTH;
+		for(int i = 0; i < tiles.length; i++){
+			feetBox.checkCollision(tiles[feetX][i].getHitbox());
 		}
 	}
 	
@@ -109,6 +129,14 @@ public class Crayon {
 		}else
 			direction = 0;
 		
+	}
+
+	public boolean isFalling() {
+		return falling;
+	}
+
+	public void setFalling(boolean falling) {
+		this.falling = falling;
 	}
 	
 }

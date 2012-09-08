@@ -36,7 +36,7 @@ public class Map {
 					if (scan.hasNext()) {
 						tempInt = scan.nextInt();
 						if (tempInt == 10)
-							character = new Crayon(i * Cell.CELL_WIDTH, j * Cell.CELL_HEIGHT);
+							character = new Crayon(j * Cell.CELL_WIDTH, i * Cell.CELL_HEIGHT);
 						else {
 							tiles[i][j] = getWalltype(tempInt, j * Cell.CELL_WIDTH, i * Cell.CELL_HEIGHT);
 						}
