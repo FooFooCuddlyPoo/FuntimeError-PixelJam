@@ -8,6 +8,6 @@ public interface Cell {
 	public static final int CELL_WIDTH = 4;
 	public static final int CELL_HEIGHT = 4;
 	
-	public void draw(Graphics g);
+	public void draw(Graphics g, int x, int y);
 	public Hitbox getHitbox();
 }

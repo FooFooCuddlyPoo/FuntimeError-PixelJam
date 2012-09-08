@@ -19,7 +19,7 @@ public class Wall implements Cell{
 	}
 
 	@Override
-	public void draw(Graphics g) {
+	public void draw(Graphics g, int x, int y) {
 		g.setColor(c);
 		g.fillRect(x, y, CELL_WIDTH, CELL_HEIGHT);
 		
@@ -47,8 +47,7 @@ public class Wall implements Cell{
 
 	@Override
 	public Hitbox getHitbox() {
-		// TODO Auto-generated method stub
-		return null;
+		return hit;
 	}
 	
 	
