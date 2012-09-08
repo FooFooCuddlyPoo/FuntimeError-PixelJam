@@ -30,8 +30,8 @@ public class Crayon {
 		this.x = x;
 		this.y = y;
 		image = new ImageWrapper(filename);
-		hitbox = new Hitbox(x , y, CRAYON_WIDTH -15, CRAYON_HEIGHT);
-		feetBox = new Hitbox(x, y+(CRAYON_HEIGHT*2)/3, CRAYON_WIDTH, CRAYON_HEIGHT/3);
+		hitbox = new Hitbox(x, y, CRAYON_WIDTH -15, CRAYON_HEIGHT);
+		feetBox = new Hitbox(x+15, y+(CRAYON_HEIGHT*2)/3, CRAYON_WIDTH -15, CRAYON_HEIGHT/3);
 		spriteStage = 0;
 		ySpeed = 0;
 	}
@@ -39,8 +39,11 @@ public class Crayon {
 	public void move(Cell[][] tiles){
 		if(!checkCollision(tiles))
 			falling = true;
-		else
+		else{
+			xSpeed = 0;
+			direction = 0;
 			falling = false;
+		}
 		
 		if(direction == 1){
 			xSpeed = 4;
@@ -66,7 +69,6 @@ public class Crayon {
 		}
 		
 		hitbox.setHitbox(this.x, this.y, CRAYON_WIDTH, CRAYON_HEIGHT);
-		feetBox.setHitbox(x, y+(CRAYON_HEIGHT*2)/3, CRAYON_WIDTH, CRAYON_HEIGHT/3);
 	}
 	
 	public void jump(){
@@ -83,7 +85,6 @@ public class Crayon {
 				}
 			}
 		}
-		
 		return false;
 	}
 	
