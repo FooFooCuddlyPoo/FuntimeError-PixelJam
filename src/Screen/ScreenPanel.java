@@ -12,7 +12,7 @@ import pxlJam.*;
 public class ScreenPanel extends JPanel implements ActionListener, KeyListener{
 
 	Graphics2D bufferGraphics;
-	Map theMap = new Map();
+	Map theMap = new Map("levels/testLevel.txt");
 
 	
     public ScreenPanel() {
@@ -25,7 +25,7 @@ public class ScreenPanel extends JPanel implements ActionListener, KeyListener{
     }
    
     public void paintComponent(Graphics g){
-    	
+    	System.out.println("paint component called");
         requestFocusInWindow();
         Graphics2D g2d = (Graphics2D) g;
         Image offscreen = createImage(getWidth(),getHeight()); 
@@ -94,7 +94,6 @@ public class ScreenPanel extends JPanel implements ActionListener, KeyListener{
     
     public void run() {
       while (true){
-    	  sleep(1000);
     	  repaint();
       }
 
@@ -150,7 +149,6 @@ public class ScreenPanel extends JPanel implements ActionListener, KeyListener{
 
     
     public void actionPerformed (ActionEvent e){
-
     	run();
 
     }

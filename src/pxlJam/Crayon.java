@@ -9,10 +9,10 @@ public class Crayon {
 	
 	private int x;
 	private int y;
-	public static final int CRAYON_WIDTH  = 16;
-	public static final int CRAYON_HEIGHT = 32;
+	public static final int CRAYON_WIDTH  = 25;
+	public static final int CRAYON_HEIGHT = 50;
 	
-	private String filename;
+	private String filename = "Sprites/crayonMovement.png";
 	
 	private Hitbox hitbox;
 	
