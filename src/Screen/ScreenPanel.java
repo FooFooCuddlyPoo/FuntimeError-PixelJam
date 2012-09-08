@@ -7,6 +7,7 @@ import java.awt.*;
 import java.awt.event.*;
 import cells.Map;
 import pxlJam.*;
+import cells.*;
 
 @SuppressWarnings("serial")
 public class ScreenPanel extends JPanel implements ActionListener, KeyListener{
@@ -110,18 +111,32 @@ public class ScreenPanel extends JPanel implements ActionListener, KeyListener{
         int xChange, yChange;
         
         public void mousePressed (MouseEvent event){
+          double x = event.getX();
+          double y = event.getY();
           
+          int xPos = (int) (x/Cell.CELL_WIDTH);
+          int yPos = (int) (y/Cell.CELL_HEIGHT);
+          theMap.setCell(xPos,yPos,new Wall(xPos,yPos));
         }
-            
-        public void mouseDragged (MouseEvent event){}
-        public void mouseReleased (MouseEvent event) {}
-        public void mouseClicked (MouseEvent event) {}
-          
-        public void mouseEntered (MouseEvent event) {}
-           
-        public void mouseExited (MouseEvent event) {}
-          
-        public void mouseMoved (MouseEvent event) {}
+        
+        public void mouseDragged (MouseEvent event){
+        	
+        }
+        public void mouseReleased (MouseEvent event) {
+        	
+        }
+        public void mouseClicked (MouseEvent event) {
+        	
+        }
+        public void mouseEntered (MouseEvent event) {
+        	
+        }
+        public void mouseExited (MouseEvent event) {
+        	
+        }
+        public void mouseMoved (MouseEvent event) {
+        	
+        }
     
 
     }

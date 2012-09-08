@@ -83,4 +83,8 @@ public class Map {
 	public void setCharacter(Crayon character) {
 		this.character = character;
 	}
+	public void setCell(int x, int y, Cell c){
+		tiles[x][y] = c;
+	}
+	
 }

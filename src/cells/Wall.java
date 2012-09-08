@@ -25,7 +25,7 @@ public class Wall implements Cell{
 		
 	}
 
-	private int getX() {
+	private int getX(){
 		return x;
 	}
 
@@ -50,4 +50,6 @@ public class Wall implements Cell{
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	
 }

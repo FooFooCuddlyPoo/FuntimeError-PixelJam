@@ -7,6 +7,8 @@ import javax.swing.*;
 @SuppressWarnings("serial")
 public class CrayonRiot extends JFrame {
 
+	public static final int FRAMETICK = 60;
+	 
 	public CrayonRiot(){
 		
 		setTitle("Crayon Riot");
