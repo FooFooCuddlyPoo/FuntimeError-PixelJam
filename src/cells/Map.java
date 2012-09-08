@@ -13,13 +13,16 @@ public class Map {
 	private int width;
 	private int height;
 	
-	public Map(){
-		
+	private File file;
+	
+	public Map(String filename){
+		file = new File(filename);
+		readMap();
 	}
 	
-	public void readMap(String filename){
+	public void readMap(){
 		try {
-			Scanner scan = new Scanner(new File(filename));
+			Scanner scan = new Scanner(file);
 			
 			width  = scan.nextInt();
 			height = scan.nextInt();

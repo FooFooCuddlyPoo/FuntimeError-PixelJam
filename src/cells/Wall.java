@@ -3,12 +3,16 @@ package cells;
 import java.awt.Color;
 import java.awt.Graphics;
 
+import pxlJam.Hitbox;
+
 public class Wall implements Cell{
 	private int x;
 	private int y;
 	private Color c;
+	private Hitbox hit;
 	
 	public Wall(int x, int y){
+		hit = new Hitbox(x, y, Cell.CELL_WIDTH, Cell.CELL_HEIGHT);
 		c = Color.black;
 		this.x = x;
 		this.y = y;
@@ -39,5 +43,11 @@ public class Wall implements Cell{
 
 	public Color getColor() {
 		return c;
+	}
+
+	@Override
+	public Hitbox getHitbox() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
