@@ -12,6 +12,10 @@ public class Crayon {
 	public static final int CRAYON_WIDTH  = 50;
 	public static final int CRAYON_HEIGHT = 50;
 	
+	private int xSpeed;
+	
+	private int direction;  //-1 for left, 0 for still, 1 for right
+	
 	private String filename = "Sprites/crayonMovementNew.png";
 	
 	private Hitbox hitbox;
@@ -26,11 +30,24 @@ public class Crayon {
 		spriteStage = 0;
 	}
 	
-	public void move(int x){
-		this.x += x;
-		spriteStage++;
-		if(spriteStage == image.getNumSprites())
+	public void move(){
+		if(direction == 1){
+			xSpeed = 4;
+			spriteStage++;
+		}
+		else if(direction == -1){
+			xSpeed = -4;
+			spriteStage++;
+		}
+		else 
+			xSpeed = 0;
+		
+		this.x += xSpeed;
+		if(spriteStage == image.getNumSprites()){
 			spriteStage = 0;
+			xSpeed = 0;
+			direction = 0;
+		}
 		
 		hitbox.setHitbox(this.x, this.y, CRAYON_WIDTH, CRAYON_HEIGHT);
 	}
@@ -82,6 +99,16 @@ public class Crayon {
 
 	public void setHitbox(Hitbox hitbox) {
 		this.hitbox = hitbox;
+	}
+
+	public void setDirection(int direction) {
+		if(direction < 0){
+			this.direction = -1;
+		}else if(direction > 0){
+			this.direction = 1;
+		}else
+			direction = 0;
+		
 	}
 	
 }
