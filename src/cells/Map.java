@@ -65,7 +65,7 @@ public class Map {
 		for (int i = 0; i < tiles.length; i++)
 			for (int j = 0; j < tiles[i].length; j++) {
 				if (tiles[i][j] != null) {
-					tiles[i][j].draw(g);
+					tiles[i][j].draw(g, i*Cell.CELL_WIDTH, j*Cell.CELL_HEIGHT);
 				}
 			}
 

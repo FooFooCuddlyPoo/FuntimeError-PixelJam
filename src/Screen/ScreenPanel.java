@@ -120,7 +120,12 @@ public class ScreenPanel extends JPanel implements ActionListener, KeyListener{
         }
         
         public void mouseDragged (MouseEvent event){
-        	
+        	double x = event.getX();
+            double y = event.getY();
+            
+            int xPos = (int) (x/Cell.CELL_WIDTH);
+            int yPos = (int) (y/Cell.CELL_HEIGHT);
+            theMap.setCell(xPos,yPos,new Wall(xPos,yPos));
         }
         public void mouseReleased (MouseEvent event) {
         	
