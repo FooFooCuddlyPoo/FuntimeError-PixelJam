@@ -91,11 +91,10 @@ public class Crayon {
 				this.y += ySpeed;
 				ySpeed += gravity;
 			}
-			
 		}
-		
 		hitbox.setHitbox(this.x+15, this.y, CRAYON_WIDTH-30, CRAYON_HEIGHT);
 		feetBox.setHitbox(x+15, y+(CRAYON_HEIGHT*2)/3, CRAYON_WIDTH -30, CRAYON_HEIGHT/3);
+		
 	}
 	
 	public void jump(){
@@ -136,7 +135,7 @@ public class Crayon {
 		feetBox.draw(g);
 	}
 
-	private int getX() {
+	public int getX() {
 		return x;
 	}
 
