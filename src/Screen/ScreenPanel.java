@@ -34,7 +34,7 @@ public class ScreenPanel extends JPanel implements ActionListener, KeyListener {
 		
 		//game stuff
 		theMap.draw(bufferGraphics);
-		theMap.getCharacter().move();
+		theMap.getCharacter().move(theMap.getTiles());
 
 		g2d.drawImage(offscreen, 0, 0, this);
 	}

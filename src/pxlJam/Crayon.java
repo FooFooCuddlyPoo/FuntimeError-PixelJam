@@ -36,8 +36,11 @@ public class Crayon {
 		ySpeed = 0;
 	}
 	
-	public void move(){
-		
+	public void move(Cell[][] tiles){
+		if(false)
+			falling = true;
+		else
+			falling = false;
 		
 		if(direction == 1){
 			xSpeed = 4;
@@ -69,23 +72,33 @@ public class Crayon {
 		
 	}
 	
-	public void checkCollision(Cell[][] tiles){
+	public boolean checkCollision(Cell[][] tiles){
 		for(int i = 0; i < tiles.length; i++){
 			for(int j = 0; j < tiles[i].length; j++){
-				hitbox.checkCollision(tiles[i][j].getHitbox());
+				if(hitbox.checkCollision(tiles[i][j].getHitbox())){
+					return true;
+				}
 			}
 		}
+		
+		return false;
 	}
 	
-	private void checkFeetCollision(Cell[][] tiles){
+	private boolean checkFeetCollision(Cell[][] tiles){
 		int feetX = feetBox.getX()/Cell.CELL_WIDTH;
 		for(int i = 0; i < tiles.length; i++){
-			feetBox.checkCollision(tiles[feetX][i].getHitbox());
+			if(feetBox.checkCollision(tiles[i][feetX].getHitbox())){
+				return true;
+			}
 		}
+		
+		return false;
 	}
 	
 	public void draw(Graphics g){
 		image.draw(g, x, y, CRAYON_WIDTH, CRAYON_HEIGHT, spriteStage);
+		hitbox.draw(g);
+		feetBox.draw(g);
 	}
 
 	private int getX() {
