@@ -92,4 +92,12 @@ public class Map {
 		return tiles;
 	}
 	
+	public int getHeight(){
+		return height;
+	}
+	public int getWidth(){
+		return width;
+	}
+	
+	
 }

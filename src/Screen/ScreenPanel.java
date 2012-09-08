@@ -15,6 +15,8 @@ public class ScreenPanel extends JPanel implements ActionListener, KeyListener {
 	Graphics2D bufferGraphics;
 	Map theMap = new Map("levels/level3.txt");
 	int xorigin, yorigin;
+	long lastTime = System.currentTimeMillis();
+	static long WAIT = 1000/30;
 
 	public ScreenPanel() {
 		setFocusable(true);
@@ -88,10 +90,15 @@ public class ScreenPanel extends JPanel implements ActionListener, KeyListener {
 	}
 
 	public void run() {
-		while (true) {
-			repaint();
+		while (true){
+			long current = System.currentTimeMillis();
+			if (current - lastTime > WAIT) {
+				repaint();
+				System.out.println("I just got called yo");
+				lastTime = current;
+			}
+			
 		}
-
 	}
 
 	public void sleep(double millis) {
@@ -109,9 +116,11 @@ public class ScreenPanel extends JPanel implements ActionListener, KeyListener {
 			double y = event.getY();
 			int xPos = (int) (x / Cell.CELL_WIDTH);
 			int yPos = (int) (y / Cell.CELL_HEIGHT);
-			xorigin = xPos;
-			yorigin = yPos;
-			theMap.setCell(yPos, xPos, new Wall(xPos * Cell.CELL_WIDTH, yPos * Cell.CELL_HEIGHT));
+			if (xPos > 0 && xPos < theMap.getHeight() && yPos > 0 && yPos < theMap.getWidth()){
+				xorigin = xPos;
+				yorigin = yPos;
+				theMap.setCell(yPos, xPos, new Wall(xPos * Cell.CELL_WIDTH, yPos * Cell.CELL_HEIGHT));
+			}
 		}
 
 		public void mouseDragged(MouseEvent event) {
@@ -119,19 +128,22 @@ public class ScreenPanel extends JPanel implements ActionListener, KeyListener {
 			double y = event.getY();
 			int xPos = (int) (x / Cell.CELL_WIDTH);
 			int yPos = (int) (y / Cell.CELL_HEIGHT);
-			
-			double xDistance = xorigin - xPos;
-			double yDistance = yorigin - yPos;
-			double xInc = xDistance / 50; 
-			double yInc = yDistance / 50;
-			double xincrement = 0, yincrement=0;
-			while(Math.abs((xPos+xincrement) - xorigin) > 0.25 || Math.abs((yPos+yincrement) - yorigin) > 0.25){
-				theMap.setCell((int)(yPos+(int)yincrement),(int)(xPos+(int)xincrement), new Wall((int)((xPos+(int)xincrement)*Cell.CELL_WIDTH), (int)((yPos+(int)yincrement)*Cell.CELL_HEIGHT)));
-				xincrement+=xInc;
-				yincrement+=yInc;
+			if (xPos > 0 && xPos < theMap.getHeight() && yPos > 0 && yPos < theMap.getWidth()){
+				double xDistance = xorigin - xPos;
+				double yDistance = yorigin - yPos;
+				double xInc = xDistance / 50; 
+				double yInc = yDistance / 50;
+				double xincrement = 0, yincrement=0;
+				while(Math.abs((xPos+xincrement) - xorigin) > 0.25 || Math.abs((yPos+yincrement) - yorigin) > 0.25){
+					if ((int)(xPos+(int)xincrement) > 0 && (int)(xPos+(int)xincrement) < theMap.getHeight() && (int)(yPos+(int)yincrement) > 0 && (int)(yPos+(int)yincrement) < theMap.getWidth()){
+					theMap.setCell((int)(yPos+(int)yincrement),(int)(xPos+(int)xincrement), new Wall((int)((xPos+(int)xincrement)*Cell.CELL_WIDTH), (int)((yPos+(int)yincrement)*Cell.CELL_HEIGHT)));
+					}
+					xincrement+=xInc;
+					yincrement+=yInc;
+				}
+				xorigin = xPos;
+				yorigin = yPos;
 			}
-			xorigin = xPos;
-			yorigin = yPos;
 		}
 
 		public void mouseReleased(MouseEvent event) {
@@ -174,7 +186,6 @@ public class ScreenPanel extends JPanel implements ActionListener, KeyListener {
 			System.out.println("You just jumped mofo");
 		}
 
-		repaint();
 	}
 
 	/** Handle the key-released event from the text field. */
@@ -183,6 +194,5 @@ public class ScreenPanel extends JPanel implements ActionListener, KeyListener {
 
 	public void actionPerformed(ActionEvent e) {
 		run();
-
 	}
 }
