@@ -25,7 +25,7 @@ public class Wall implements Cell{
 		
 	}
 
-	private int getX(){
+	public int getX(){
 		return x;
 	}
 
@@ -33,7 +33,7 @@ public class Wall implements Cell{
 		this.x = x;
 	}
 
-	private int getY() {
+	public int getY() {
 		return y;
 	}
 

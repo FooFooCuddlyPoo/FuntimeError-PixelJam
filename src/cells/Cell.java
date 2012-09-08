@@ -10,6 +10,6 @@ public interface Cell {
 	
 	public void draw(Graphics g);
 	public Hitbox getHitbox();
-	public int getXLoc();
-	public int getYLoc();
+	public int getX();
+	public int getY();
 }

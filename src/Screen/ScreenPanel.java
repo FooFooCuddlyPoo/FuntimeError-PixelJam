@@ -13,7 +13,7 @@ import cells.*;
 public class ScreenPanel extends JPanel implements ActionListener, KeyListener{
 
 	Graphics2D bufferGraphics;
-	Map theMap = new Map("levels/testLevel.txt");
+	Map theMap = new Map("levels/level3.txt");
 
 	
     public ScreenPanel() {
@@ -33,7 +33,6 @@ public class ScreenPanel extends JPanel implements ActionListener, KeyListener{
         bufferGraphics = (Graphics2D)offscreen.getGraphics(); 
         bufferGraphics.setColor(Color.white); 
         bufferGraphics.fillRect(0,0,getWidth(),getHeight());
-        
         theMap.draw(bufferGraphics);
         
         g2d.drawImage(offscreen,0,0,this);
@@ -113,19 +112,21 @@ public class ScreenPanel extends JPanel implements ActionListener, KeyListener{
         public void mousePressed (MouseEvent event){
           double x = event.getX();
           double y = event.getY();
-          
+          System.out.println(x);
+          System.out.println(y);
           int xPos = (int) (x/Cell.CELL_WIDTH);
           int yPos = (int) (y/Cell.CELL_HEIGHT);
-          theMap.setCell(xPos,yPos,new Wall(xPos,yPos));
+          theMap.setCell(yPos,xPos,new Wall(xPos*Cell.CELL_WIDTH,yPos*Cell.CELL_HEIGHT));
         }
         
         public void mouseDragged (MouseEvent event){
         	double x = event.getX();
             double y = event.getY();
-            
+            System.out.println(x);
+            System.out.println(y);
             int xPos = (int) (x/Cell.CELL_WIDTH);
             int yPos = (int) (y/Cell.CELL_HEIGHT);
-            theMap.setCell(xPos,yPos,new Wall(xPos,yPos));
+            theMap.setCell(yPos,xPos,new Wall(xPos*Cell.CELL_WIDTH,yPos*Cell.CELL_HEIGHT));
         }
         public void mouseReleased (MouseEvent event) {
         	

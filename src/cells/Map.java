@@ -25,9 +25,9 @@ public class Map {
 		try {
 			Scanner scan = new Scanner(file);
 
-			width = scan.nextInt();
 			height = scan.nextInt();
-
+			width = scan.nextInt();
+			
 			tiles = new Cell[width][height];
 			int tempInt;
 
@@ -35,7 +35,7 @@ public class Map {
 				for (int j = 0; j < height; j++) {
 					if (scan.hasNext()) {
 						tempInt = scan.nextInt();
-						if (tempInt == 2)
+						if (tempInt == 10)
 							character = new Crayon(i * Cell.CELL_WIDTH, j * Cell.CELL_HEIGHT);
 						else {
 							tiles[i][j] = getWalltype(tempInt, j * Cell.CELL_WIDTH, i * Cell.CELL_HEIGHT);
