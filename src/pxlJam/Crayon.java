@@ -7,8 +7,8 @@ public class Crayon {
 	
 	private int x;
 	private int y;
-	private int width;
-	private int height;
+	public static final int CRAYON_WIDTH  = 16;
+	public static final int CRAYON_HEIGHT = 32;
 	
 	private String filename;
 	
@@ -16,13 +16,11 @@ public class Crayon {
 	
 	private int spriteStage;
 
-	public Crayon(int x, int y, int width, int height){
+	public Crayon(int x, int y){
 		this.x = x;
 		this.y = y;
-		this.width = width;
-		this.height = height;
 		image = new ImageWrapper(filename);
-		hitbox = new Hitbox(x, y, width, height);
+		hitbox = new Hitbox(x, y, CRAYON_WIDTH, CRAYON_HEIGHT);
 		spriteStage = 0;
 	}
 	
@@ -34,7 +32,7 @@ public class Crayon {
 	}
 	
 	public void draw(Graphics g){
-		image.draw(g, x, y, width, height, spriteStage);
+		image.draw(g, x, y, CRAYON_WIDTH, CRAYON_HEIGHT, spriteStage);
 	}
 
 	private int getX() {
@@ -53,21 +51,6 @@ public class Crayon {
 		this.y = y;
 	}
 
-	private int getWidth() {
-		return width;
-	}
-
-	private void setWidth(int width) {
-		this.width = width;
-	}
-
-	private int getHeight() {
-		return height;
-	}
-
-	private void setHeight(int height) {
-		this.height = height;
-	}
 
 	private ImageWrapper getImage() {
 		return image;

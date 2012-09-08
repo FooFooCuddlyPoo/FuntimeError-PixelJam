@@ -1,7 +1,79 @@
 package cells;
+import java.awt.Graphics;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
 import pxlJam.Crayon;
 
 public class Map {
 	private Cell[][] tiles;
 	private Crayon character;
+	
+	private int width;
+	private int height;
+	
+	public Map(){
+		
+	}
+	
+	public void readMap(String filename){
+		try {
+			Scanner scan = new Scanner(new File(filename));
+			
+			width  = scan.nextInt();
+			height = scan.nextInt();
+			
+			tiles = new Cell[width][height];
+			int tempInt;
+			
+			for(int i = 0; i < tiles.length; i++){
+				Scanner lineScan = new Scanner(scan.nextLine());
+				for(int j = 0; j < tiles[i].length; j++){
+					tempInt = lineScan.nextInt();
+					if(tempInt == 10){
+						tiles[i][j] = null;
+						character = new Crayon(i*Cell.CELL_WIDTH, j*Cell.CELL_HEIGHT);
+					}
+					else{
+						tiles[i][j] = getWalltype(tempInt, i*Cell.CELL_WIDTH, j*Cell.CELL_HEIGHT);
+					}
+				}	
+			}
+					
+			Scanner lineScan = new Scanner(scan.nextLine());
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public Cell getWalltype(int fileNum, int x, int y){
+		Cell tempCell = null;
+		if(fileNum == 1)
+			tempCell = new Wall(x, y);
+		else if(fileNum == 2){
+			//something else
+		}
+		
+		return tempCell;
+	}
+	
+	
+	public void draw(Graphics g){
+		for(int i = 0; i < tiles.length; i++)
+			for(int j = 0; j < tiles[i].length; j++){
+				if(tiles[i][j] != null){
+					tiles[i][j].draw(g);
+				}
+			}
+		
+		character.draw(g);
+	}
+	
+	public Crayon getCharacter() {
+		return character;
+	}
+	public void setCharacter(Crayon character) {
+		this.character = character;
+	}
 }
