@@ -12,16 +12,16 @@ public class ImageWrapper {
 	
 	public ImageWrapper(String file){
 		try {
-			ImageIO.read(new File(file));
+			img = ImageIO.read(new File(file));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
-		this.numSprites = (img.getWidth()+1)/16;
+		this.numSprites = (img.getWidth()+1)/Crayon.CRAYON_WIDTH;
 	}
 	
 	public void draw(Graphics g, int x, int y, int width, int height, int spriteStage){
-		BufferedImage temp = img.getSubimage(spriteStage*16, 0, 16, 32);
+		BufferedImage temp = img.getSubimage(spriteStage*Crayon.CRAYON_WIDTH, 0, Crayon.CRAYON_WIDTH, Crayon.CRAYON_HEIGHT);
 		
 		g.drawImage(temp, x, y, width, height, null);
 	}
