@@ -61,19 +61,37 @@ public class Crayon {
 			direction = 0;
 		}
 		
-		
+		int collideY = 0;
+		boolean collided = false;
 		if(falling){
-			if(feetBox.checkCollision(feetBox.getX(), this.y+ySpeed)){
-				for(int i = feetBox.getY()/Cell.CELL_HEIGHT; i < tiles.length; i++){
-					if(tiles[i][feetBox.getX()/Cell.CELL_WIDTH] != null){
-						this.y = tiles[i][feetBox.getX()/Cell.CELL_WIDTH].getX() - CRAYON_HEIGHT;
+			Hitbox newFeet = feetBox;
+			newFeet.setHitbox(this.x, this.y+ySpeed, CRAYON_WIDTH, CRAYON_HEIGHT);
+			System.out.println("feetbox.getY = "+feetBox.getY());
+			for (int i = feetBox.getY()/Cell.CELL_HEIGHT; i<tiles.length;i++){
+				if (i > 0){
+					if (tiles[i][feetBox.getX()/Cell.CELL_WIDTH] !=null){
+						collideY = i;
+						System.out.println(i);
+						collided = true;
+						break;
 					}
+				}
+			}
+			if (newFeet.getY()>=(collideY*Cell.CELL_HEIGHT)){
+				if (collided){
+					this.y=(collideY*Cell.CELL_HEIGHT)-CRAYON_HEIGHT;
+					System.out.println("THIS IS COLLIDE Y = "+collideY);
+				}
+				else{
+					this.y += ySpeed;
+					ySpeed += gravity;
 				}
 			}
 			else{
 				this.y += ySpeed;
+				ySpeed += gravity;
 			}
-			ySpeed += gravity;
+			
 		}
 		
 		hitbox.setHitbox(this.x+15, this.y, CRAYON_WIDTH-30, CRAYON_HEIGHT);
