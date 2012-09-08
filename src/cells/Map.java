@@ -38,7 +38,7 @@ public class Map {
 						if (tempInt == 2)
 							character = new Crayon(i * Cell.CELL_WIDTH, j * Cell.CELL_HEIGHT);
 						else {
-							tiles[i][j] = getWalltype(tempInt, i * Cell.CELL_WIDTH, j * Cell.CELL_HEIGHT);
+							tiles[i][j] = getWalltype(tempInt, j * Cell.CELL_WIDTH, i * Cell.CELL_HEIGHT);
 						}
 					}
 				}
@@ -65,7 +65,7 @@ public class Map {
 		for (int i = 0; i < tiles.length; i++)
 			for (int j = 0; j < tiles[i].length; j++) {
 				if (tiles[i][j] != null) {
-					tiles[i][j].draw(g, i*Cell.CELL_WIDTH, j*Cell.CELL_HEIGHT);
+					tiles[i][j].draw(g);
 				}
 			}
 

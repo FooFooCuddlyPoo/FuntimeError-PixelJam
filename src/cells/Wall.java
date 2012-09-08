@@ -19,7 +19,7 @@ public class Wall implements Cell{
 	}
 
 	@Override
-	public void draw(Graphics g, int x, int y) {
+	public void draw (Graphics g) {
 		g.setColor(c);
 		g.fillRect(x, y, CELL_WIDTH, CELL_HEIGHT);
 		

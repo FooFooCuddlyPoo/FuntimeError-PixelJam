@@ -12,12 +12,12 @@ public class ImageWrapper {
 	
 	public ImageWrapper(String file){
 		try {
-			ImageIO.read(new File(file));
+			img = ImageIO.read(new File(file));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
-		this.numSprites = (img.getWidth()+1)/16;
+		this.numSprites = (img.getWidth()+1)/Crayon.CRAYON_WIDTH;
 	}
 	
 	public void draw(Graphics g, int x, int y, int width, int height, int spriteStage){
