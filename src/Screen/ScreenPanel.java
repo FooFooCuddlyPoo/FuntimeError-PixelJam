@@ -14,6 +14,7 @@ public class ScreenPanel extends JPanel implements ActionListener, KeyListener {
 
 	Graphics2D bufferGraphics;
 	Map theMap = new Map("levels/level3.txt");
+	int xorigin, yorigin;
 
 	public ScreenPanel() {
 		setFocusable(true);
@@ -106,21 +107,31 @@ public class ScreenPanel extends JPanel implements ActionListener, KeyListener {
 		public void mousePressed(MouseEvent event) {
 			double x = event.getX();
 			double y = event.getY();
-			System.out.println(x);
-			System.out.println(y);
 			int xPos = (int) (x / Cell.CELL_WIDTH);
 			int yPos = (int) (y / Cell.CELL_HEIGHT);
+			xorigin = xPos;
+			yorigin = yPos;
 			theMap.setCell(yPos, xPos, new Wall(xPos * Cell.CELL_WIDTH, yPos * Cell.CELL_HEIGHT));
 		}
 
 		public void mouseDragged(MouseEvent event) {
 			double x = event.getX();
 			double y = event.getY();
-			System.out.println(x);
-			System.out.println(y);
 			int xPos = (int) (x / Cell.CELL_WIDTH);
 			int yPos = (int) (y / Cell.CELL_HEIGHT);
-			theMap.setCell(yPos, xPos, new Wall(xPos * Cell.CELL_WIDTH, yPos * Cell.CELL_HEIGHT));
+			
+			double xDistance = xorigin - xPos;
+			double yDistance = yorigin - yPos;
+			double xInc = xDistance / 50; 
+			double yInc = yDistance / 50;
+			double xincrement = 0, yincrement=0;
+			while(Math.abs((xPos+xincrement) - xorigin) > 0.25 || Math.abs((yPos+yincrement) - yorigin) > 0.25){
+				theMap.setCell((int)(yPos+(int)yincrement),(int)(xPos+(int)xincrement), new Wall((int)((xPos+(int)xincrement)*Cell.CELL_WIDTH), (int)((yPos+(int)yincrement)*Cell.CELL_HEIGHT)));
+				xincrement+=xInc;
+				yincrement+=yInc;
+			}
+			xorigin = xPos;
+			yorigin = yPos;
 		}
 
 		public void mouseReleased(MouseEvent event) {
