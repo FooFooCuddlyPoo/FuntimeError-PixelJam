@@ -30,14 +30,14 @@ public class Crayon {
 		this.x = x;
 		this.y = y;
 		image = new ImageWrapper(filename);
-		hitbox = new Hitbox(x, y, CRAYON_WIDTH, CRAYON_HEIGHT);
+		hitbox = new Hitbox(x , y, CRAYON_WIDTH -15, CRAYON_HEIGHT);
 		feetBox = new Hitbox(x, y+(CRAYON_HEIGHT*2)/3, CRAYON_WIDTH, CRAYON_HEIGHT/3);
 		spriteStage = 0;
 		ySpeed = 0;
 	}
 	
 	public void move(Cell[][] tiles){
-		if(false)
+		if(!checkCollision(tiles))
 			falling = true;
 		else
 			falling = false;
@@ -66,16 +66,19 @@ public class Crayon {
 		}
 		
 		hitbox.setHitbox(this.x, this.y, CRAYON_WIDTH, CRAYON_HEIGHT);
+		feetBox.setHitbox(x, y+(CRAYON_HEIGHT*2)/3, CRAYON_WIDTH, CRAYON_HEIGHT/3);
 	}
 	
-	private void walk(){
-		
+	public void jump(){
+		ySpeed = -8;
+		this.y -= 2;
+		falling = true;
 	}
 	
 	public boolean checkCollision(Cell[][] tiles){
 		for(int i = 0; i < tiles.length; i++){
 			for(int j = 0; j < tiles[i].length; j++){
-				if(hitbox.checkCollision(tiles[i][j].getHitbox())){
+				if(tiles[i][j] != null && hitbox.checkCollision(tiles[i][j].getHitbox())){
 					return true;
 				}
 			}
@@ -84,19 +87,11 @@ public class Crayon {
 		return false;
 	}
 	
-	private boolean checkFeetCollision(Cell[][] tiles){
-		int feetX = feetBox.getX()/Cell.CELL_WIDTH;
-		for(int i = 0; i < tiles.length; i++){
-			if(feetBox.checkCollision(tiles[i][feetX].getHitbox())){
-				return true;
-			}
-		}
-		
-		return false;
-	}
-	
 	public void draw(Graphics g){
-		image.draw(g, x, y, CRAYON_WIDTH, CRAYON_HEIGHT, spriteStage);
+		if(direction == -1)
+			image.draw(g, x, y, CRAYON_WIDTH, CRAYON_HEIGHT, spriteStage, true);
+		else
+			image.draw(g, x, y, CRAYON_WIDTH, CRAYON_HEIGHT, spriteStage, false);
 		hitbox.draw(g);
 		feetBox.draw(g);
 	}
