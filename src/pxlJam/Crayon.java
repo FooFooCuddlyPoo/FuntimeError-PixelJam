@@ -17,7 +17,7 @@ public class Crayon {
 	private int ySpeed;
 	
 	private boolean falling;
-	private static final double gravity = 1;
+	private static final int gravity = 1;
 	
 	private String filename = "Sprites/crayonMovementNew.png";
 	
@@ -30,18 +30,16 @@ public class Crayon {
 		this.x = x;
 		this.y = y;
 		image = new ImageWrapper(filename);
-		hitbox = new Hitbox(x, y, CRAYON_WIDTH -15, CRAYON_HEIGHT);
-		feetBox = new Hitbox(x+15, y+(CRAYON_HEIGHT*2)/3, CRAYON_WIDTH -15, CRAYON_HEIGHT/3);
+		hitbox = new Hitbox(x+15, y, CRAYON_WIDTH -30, CRAYON_HEIGHT);
+		feetBox = new Hitbox(x+15, y+(CRAYON_HEIGHT*2)/3, CRAYON_WIDTH -30, CRAYON_HEIGHT/3);
 		spriteStage = 0;
 		ySpeed = 0;
 	}
 	
 	public void move(Cell[][] tiles){
-		if(!checkCollision(tiles))
+		if(!checkFeetCollision(tiles))
 			falling = true;
 		else{
-			xSpeed = 0;
-			direction = 0;
 			falling = false;
 		}
 		
@@ -63,12 +61,23 @@ public class Crayon {
 			direction = 0;
 		}
 		
+		
 		if(falling){
-			this.y += ySpeed;
+			if(feetBox.checkCollision(feetBox.getX(), this.y+ySpeed)){
+				for(int i = feetBox.getY()/Cell.CELL_HEIGHT; i < tiles.length; i++){
+					if(tiles[i][feetBox.getX()/Cell.CELL_WIDTH] != null){
+						this.y = tiles[i][feetBox.getX()/Cell.CELL_WIDTH].getX() - CRAYON_HEIGHT;
+					}
+				}
+			}
+			else{
+				this.y += ySpeed;
+			}
 			ySpeed += gravity;
 		}
 		
-		hitbox.setHitbox(this.x, this.y, CRAYON_WIDTH, CRAYON_HEIGHT);
+		hitbox.setHitbox(this.x+15, this.y, CRAYON_WIDTH-30, CRAYON_HEIGHT);
+		feetBox.setHitbox(x+15, y+(CRAYON_HEIGHT*2)/3, CRAYON_WIDTH -30, CRAYON_HEIGHT/3);
 	}
 	
 	public void jump(){
@@ -85,6 +94,18 @@ public class Crayon {
 				}
 			}
 		}
+		return false;
+	}
+	
+	private boolean checkFeetCollision(Cell[][] tiles){
+		int feetX = feetBox.getX()/Cell.CELL_WIDTH;
+		
+		for(int i = 0; i < tiles.length; i++){
+			if(tiles[i][feetX] != null && feetBox.checkCollision(tiles[i][feetX].getHitbox())){
+				return true;
+			}
+		}
+		
 		return false;
 	}
 	
