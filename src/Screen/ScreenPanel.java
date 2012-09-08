@@ -5,27 +5,37 @@ import javax.swing.*;
 import javax.swing.Timer;
 import java.awt.*;
 import java.awt.event.*;
-
+import cells.Map;
+import pxlJam.*;
 
 @SuppressWarnings("serial")
 public class ScreenPanel extends JPanel implements ActionListener, KeyListener{
 
-    
+	Graphics2D bufferGraphics;
+	Map theMap = new Map();
+
+	
     public ScreenPanel() {
-       
+         setFocusable(true);
+         requestFocusInWindow();
+         MListener mlist = new MListener();
+         addMouseListener (mlist);
+         addMouseMotionListener (mlist);
+         addKeyListener(this);
     }
    
     public void paintComponent(Graphics g){
+    	
         requestFocusInWindow();
-        Graphics2D g2d = (Graphics2D)g;
-        if (introMode){
-            drawIntroScreen(g2d);
-        }
-        else {
-         
-               
-        }
-            g2d.drawImage(offscreen,0,0,this);
+        Graphics2D g2d = (Graphics2D) g;
+        Image offscreen = createImage(getWidth(),getHeight()); 
+        bufferGraphics = (Graphics2D)offscreen.getGraphics(); 
+        bufferGraphics.setColor(Color.white); 
+        bufferGraphics.fillRect(0,0,getWidth(),getHeight());
+        
+        theMap.draw(bufferGraphics);
+        
+        g2d.drawImage(offscreen,0,0,this);
     }
     
     public void drawIntroScreen (Graphics2D g2d){
@@ -62,11 +72,7 @@ public class ScreenPanel extends JPanel implements ActionListener, KeyListener{
        
         
     }
-    
-    public int getLevelSpeed(){
-        
-    
-    }
+   
 
     public void drawOrders(Graphics bf) {
   
@@ -87,22 +93,12 @@ public class ScreenPanel extends JPanel implements ActionListener, KeyListener{
     }
     
     public void run() {
-       long timeBetweenSpeedups = 2000;
-       long timeOfNextOrder = 0;
-       long timeOfNextSpeedup = 0;
-        
-            if (gameRunning){  // if gameRunning is false, then don't generate orders
-                 generateOrder();
-            
-                if (orders.size() > 20) {
-                    System.out.println("Oh no! You have too many orders waiting! Game over...");
-                    orders.clear();
-                    gameRunning = false;
-                    gameOver = true;
-                }
-            }
-            repaint(0);
-        }
+      while (true){
+    	  sleep(1000);
+    	  repaint();
+      }
+
+    }
     
     
     public void sleep(double millis){
@@ -138,22 +134,14 @@ public class ScreenPanel extends JPanel implements ActionListener, KeyListener{
 
     /** Handle the key-pressed event from the text field. */
     public void keyPressed(KeyEvent e) {
-        Graphics2D gr = (Graphics2D) getGraphics();
-        if (e.getKeyChar() == 'f' || e.getKeyChar() == 'F'){
-            
-        }
-        else if (e.getKeyChar() == 'c' ||e.getKeyChar() == 'C'){
-      
-        }
-        else if (e.getKeyChar() == 'b' ||e.getKeyChar() == 'B'){
-           
+        if (e.getKeyChar() == 'a' || e.getKeyChar() == 'A'){
+        	theMap.getCharacter().move(-5);
         }
         else if (e.getKeyChar() == 'd' ||e.getKeyChar() == 'D'){
-       
+        	theMap.getCharacter().move(-5);
         }
         
-        
-        update(gr);
+        repaint();
     }
 
     /** Handle the key-released event from the text field. */
