@@ -26,7 +26,6 @@ public class ScreenPanel extends JPanel implements ActionListener, KeyListener{
     }
    
     public void paintComponent(Graphics g){
-    	System.out.println("paint component called");
         requestFocusInWindow();
         Graphics2D g2d = (Graphics2D) g;
         Image offscreen = createImage(getWidth(),getHeight()); 
@@ -158,7 +157,9 @@ public class ScreenPanel extends JPanel implements ActionListener, KeyListener{
         	theMap.getCharacter().move(-5);
         }
         else if (e.getKeyChar() == 'd' ||e.getKeyChar() == 'D'){
-        	theMap.getCharacter().move(-5);
+        	theMap.getCharacter().move(5);
+        }else if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
+        	System.exit(0);
         }
         
         repaint();

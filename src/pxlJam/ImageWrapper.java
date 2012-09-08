@@ -21,7 +21,7 @@ public class ImageWrapper {
 	}
 	
 	public void draw(Graphics g, int x, int y, int width, int height, int spriteStage){
-		BufferedImage temp = img.getSubimage(spriteStage*Crayon.CRAYON_WIDTH, 0, Crayon.CRAYON_WIDTH, Crayon.CRAYON_HEIGHT);
+		BufferedImage temp = img.getSubimage(spriteStage*Crayon.CRAYON_WIDTH+3, 0, Crayon.CRAYON_WIDTH-6, Crayon.CRAYON_HEIGHT);
 		
 		g.drawImage(temp, x, y, width, height, null);
 	}

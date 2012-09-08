@@ -31,6 +31,12 @@ public class Crayon {
 		spriteStage++;
 		if(spriteStage == image.getNumSprites())
 			spriteStage = 0;
+		
+		hitbox.setHitbox(this.x, this.y, CRAYON_WIDTH, CRAYON_HEIGHT);
+	}
+	
+	private void walk(){
+		
 	}
 	
 	public void checkCollision(Cell[][] tiles){
