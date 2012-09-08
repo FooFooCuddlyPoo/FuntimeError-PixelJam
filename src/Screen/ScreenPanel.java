@@ -14,6 +14,7 @@ public class ScreenPanel extends JPanel implements ActionListener, KeyListener {
 
 	Graphics2D bufferGraphics;
 	Map theMap = new Map("levels/level3.txt");
+	Camera cam;
 	int xorigin, yorigin;
 	long lastTime = System.currentTimeMillis();
 	static long WAIT = 1000/30;
@@ -25,6 +26,8 @@ public class ScreenPanel extends JPanel implements ActionListener, KeyListener {
 		addMouseListener(mlist);
 		addMouseMotionListener(mlist);
 		addKeyListener(this);
+		
+		cam = new Camera(theMap.getCharacter().getX());
 	}
 
 	public void paintComponent(Graphics g) {
@@ -35,11 +38,16 @@ public class ScreenPanel extends JPanel implements ActionListener, KeyListener {
 		bufferGraphics.setColor(Color.white);
 		bufferGraphics.fillRect(0, 0, getWidth(), getHeight());
 		
-		//game stuff
-		theMap.draw(bufferGraphics);
-		theMap.getCharacter().move(theMap.getTiles());
+		gameStuff();
 
 		g2d.drawImage(offscreen, 0, 0, this);
+	}
+	
+	private void gameStuff(){
+		theMap.draw(bufferGraphics);
+		theMap.getCharacter().move(theMap.getTiles());
+		cam.setX(theMap.getCharacter().getX());
+		bufferGraphics.translate(-cam.getX(), 0);
 	}
 
 	public void drawIntroScreen(Graphics2D g2d) {
@@ -94,7 +102,6 @@ public class ScreenPanel extends JPanel implements ActionListener, KeyListener {
 			long current = System.currentTimeMillis();
 			if (current - lastTime > WAIT) {
 				repaint();
-				System.out.println("I just got called yo");
 				lastTime = current;
 			}
 			
