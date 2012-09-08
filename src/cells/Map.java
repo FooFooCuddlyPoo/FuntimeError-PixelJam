@@ -38,7 +38,7 @@ public class Map {
 						if (tempInt == 10)
 							character = new Crayon(j * Cell.CELL_WIDTH, i * Cell.CELL_HEIGHT);
 						else {
-							getTiles()[i][j] = getWalltype(tempInt, j * Cell.CELL_WIDTH, i * Cell.CELL_HEIGHT);
+							tiles[i][j] = getWalltype(tempInt, j * Cell.CELL_WIDTH, i * Cell.CELL_HEIGHT);
 						}
 					}
 				}
