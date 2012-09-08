@@ -35,10 +35,10 @@ public class Map {
 				for (int j = 0; j < height; j++) {
 					if (scan.hasNext()) {
 						tempInt = scan.nextInt();
-						if (tempInt == 10)
+						if (tempInt == 2)
 							character = new Crayon(i * Cell.CELL_WIDTH, j * Cell.CELL_HEIGHT);
 						else {
-							tiles[i][j] = getWalltype(scan.nextInt(), i * Cell.CELL_WIDTH, j * Cell.CELL_HEIGHT);
+							tiles[i][j] = getWalltype(tempInt, i * Cell.CELL_WIDTH, j * Cell.CELL_HEIGHT);
 						}
 					}
 				}
