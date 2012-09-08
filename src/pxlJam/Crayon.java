@@ -2,7 +2,7 @@ package pxlJam;
 import java.awt.Graphics;
 
 import cells.Cell;
-
+import cells.Map;
 
 public class Crayon {
 	private ImageWrapper image;
@@ -23,26 +23,31 @@ public class Crayon {
 	
 	private Hitbox hitbox;
 	private Hitbox feetBox;
+	private Map theMap;
 	
 	private int spriteStage;
+	long jumpTime = System.currentTimeMillis();
+	boolean jumping = false;
+	boolean moving = false;
 
-	public Crayon(int x, int y){
+	public Crayon(int x, int y, Map map){
 		this.x = x;
 		this.y = y;
 		image = new ImageWrapper(filename);
-		hitbox = new Hitbox(x+15, y, CRAYON_WIDTH -30, CRAYON_HEIGHT);
+		hitbox = new Hitbox(x+12, y, CRAYON_WIDTH -30, CRAYON_HEIGHT);
 		feetBox = new Hitbox(x+15, y+(int)((CRAYON_HEIGHT*2)/3), CRAYON_WIDTH -30, (int)(CRAYON_HEIGHT/3));
 		spriteStage = 0;
 		ySpeed = 0;
+		theMap = map;
 	}
 	
 	public void move(Cell[][] tiles){
+		boolean sideHit = false;
 		if(!checkFeetCollision(tiles))
 			falling = true;
 		else{
 			falling = false;
 		}
-		
 		if(direction == 1){
 			xSpeed = 4;
 			spriteStage++;
@@ -51,32 +56,55 @@ public class Crayon {
 			xSpeed = -4;
 			spriteStage++;
 		}
-		else 
+		else if (!jumping && !moving){ 
 			xSpeed = 0;
+		}
+		if (System.currentTimeMillis() - jumpTime > 800 ){
+			jumping = false;
+		}
 		
-		this.x += xSpeed;
+		Hitbox sideHitBox = hitbox;
+		sideHitBox.setHitbox(sideHitBox.getX()+xSpeed,sideHitBox.getY(),sideHitBox.getWidth(),sideHitBox.getHeight());
+		if (checkSideCollision(sideHitBox,tiles)){
+			sideHit = true;
+		}
+		sideHitBox.setHitbox(sideHitBox.getX()-xSpeed,sideHitBox.getY(),sideHitBox.getWidth(),sideHitBox.getHeight());
+		if (checkSideCollision(sideHitBox,tiles)){
+			sideHit = true;
+		}
+		
+		System.out.println("MAP GET WIDHTH = "+theMap.getHeight());
+		System.out.println("x+xSpeed/Cell.CELL_WIDTH = "+((x+xSpeed)/Cell.CELL_WIDTH));
+		if ((this.x+xSpeed)/Cell.CELL_WIDTH> 0 && !(sideHit)){
+			if (theMap.getHeight() - (((this.x)/Cell.CELL_WIDTH))>4){
+				this.x += xSpeed;
+			}
+		}
+		
 		if(spriteStage == image.getNumSprites()){
 			spriteStage = 0;
-			xSpeed = 0;
+			//xSpeed = 0;
 			direction = 0;
 		}
 		
 		int collideY = 0;
 		boolean collided = false;
+		
 		if(falling){
 			Hitbox newFeet = feetBox;
 			newFeet.setHitbox(this.x, this.y+ySpeed, CRAYON_WIDTH, CRAYON_HEIGHT);
 			System.out.println("feetbox.getY = "+feetBox.getY());
 			System.out.println("tiles[0].length = "+tiles[0].length);
 			System.out.println("tiles.length = "+tiles.length);
-			for (int i = (hitbox.getY()/Cell.CELL_HEIGHT); i<tiles.length;i++){
-				System.out.println("First i "+i);
+			for (int i = (feetBox.getY()/Cell.CELL_HEIGHT); i<tiles.length;i++){
 				if (i > 0){
-					if (tiles[i][feetBox.getX()/Cell.CELL_WIDTH] !=null){
-						collideY = i;
-						System.out.println(i);
-						collided = true;
-						break;
+					for (int a = 0; a < 6; a++){
+						if (!collided&&tiles[i][(feetBox.getX()/Cell.CELL_WIDTH)+a] !=null){
+							collideY = i;
+							System.out.println(i);
+							collided = true;
+							break;
+						}
 					}
 				}
 			}
@@ -93,7 +121,9 @@ public class Crayon {
 				}
 			}
 			else if (this.y+CRAYON_HEIGHT + ySpeed > collideY*Cell.CELL_HEIGHT){
-				this.y=(collideY*Cell.CELL_HEIGHT)-CRAYON_HEIGHT-1;
+				if ((this.y+CRAYON_HEIGHT) - (collideY*Cell.CELL_HEIGHT) < 15){
+					this.y=(collideY*Cell.CELL_HEIGHT)-CRAYON_HEIGHT-1;
+				}
 			}
 			else{
 				this.y += ySpeed;
@@ -102,13 +132,18 @@ public class Crayon {
 		}
 		hitbox.setHitbox(this.x+15, this.y, CRAYON_WIDTH-30, CRAYON_HEIGHT);
 		feetBox.setHitbox(x+15, y+(CRAYON_HEIGHT*2)/3, CRAYON_WIDTH -30, CRAYON_HEIGHT/3);
-		
+
 	}
 	
 	public void jump(){
-		ySpeed = -8;
-		this.y -= 2;
-		falling = true;
+		if (System.currentTimeMillis() - jumpTime > 800 ){
+			System.out.println("NOT JUMPING");
+			ySpeed = -8;
+			this.y -= 2;
+			falling = true;
+			jumpTime = System.currentTimeMillis();
+			jumping = true;
+		}
 	}
 	
 	public boolean checkCollision(Cell[][] tiles){
@@ -122,6 +157,21 @@ public class Crayon {
 				}
 			}
 		}
+		return false;
+	}
+	
+	private boolean checkSideCollision(Hitbox prospective, Cell[][] tiles){
+		int prospectiveY = prospective.getY()/Cell.CELL_HEIGHT;
+		System.out.println("PROSPECTIVE X = "+prospectiveY);
+		System.out.println("tiles.length = "+tiles.length);
+		if (prospectiveY > 0 && prospectiveY < tiles.length){
+			for(int i = 0; i < tiles[0].length; i++){
+				if(tiles[prospectiveY][i] != null && tiles[prospectiveY][i].getHitbox() != null && prospective.checkCollision(tiles[prospectiveY][i].getHitbox())){
+					return true;
+				}
+			}
+		}
+		
 		return false;
 	}
 	
@@ -192,6 +242,8 @@ public class Crayon {
 	public boolean isFalling() {
 		return falling;
 	}
+	
+	
 
 	public void setFalling(boolean falling) {
 		this.falling = falling;

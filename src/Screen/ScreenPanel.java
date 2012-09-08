@@ -126,7 +126,7 @@ public class ScreenPanel extends JPanel implements ActionListener, KeyListener {
 			if (xPos > 0 && xPos < theMap.getHeight() && yPos > 0 && yPos < theMap.getWidth()){
 				xorigin = xPos;
 				yorigin = yPos;
-				theMap.setCell(yPos, xPos, new Wall(xPos * Cell.CELL_WIDTH, yPos * Cell.CELL_HEIGHT));
+				theMap.setCell(yPos, xPos, new DrawnWall(xPos * Cell.CELL_WIDTH, yPos * Cell.CELL_HEIGHT,2000,theMap));
 			}
 		}
 
@@ -143,7 +143,7 @@ public class ScreenPanel extends JPanel implements ActionListener, KeyListener {
 				double xincrement = 0, yincrement=0;
 				while(Math.abs((xPos+xincrement) - xorigin) > 0.25 || Math.abs((yPos+yincrement) - yorigin) > 0.25){
 					if ((int)(xPos+(int)xincrement) > 0 && (int)(xPos+(int)xincrement) < theMap.getHeight() && (int)(yPos+(int)yincrement) > 0 && (int)(yPos+(int)yincrement) < theMap.getWidth()){
-					theMap.setCell((int)(yPos+(int)yincrement),(int)(xPos+(int)xincrement), new Wall((int)((xPos+(int)xincrement)*Cell.CELL_WIDTH), (int)((yPos+(int)yincrement)*Cell.CELL_HEIGHT)));
+					theMap.setCell((int)(yPos+(int)yincrement),(int)(xPos+(int)xincrement), new DrawnWall((int)((xPos+(int)xincrement)*Cell.CELL_WIDTH), (int)((yPos+(int)yincrement)*Cell.CELL_HEIGHT),2000,theMap));
 					}
 					xincrement+=xInc;
 					yincrement+=yInc;
@@ -197,6 +197,32 @@ public class ScreenPanel extends JPanel implements ActionListener, KeyListener {
 
 	/** Handle the key-released event from the text field. */
 	public void keyReleased(KeyEvent e) {
+			if (e.getKeyChar() == 'a' || e.getKeyChar() == 'A') {
+				theMap.getCharacter().setDirection(0);
+				System.out.println("RELEASED");
+			} else if (e.getKeyChar() == 'd' || e.getKeyChar() == 'D') {
+				theMap.getCharacter().setDirection(0);
+				System.out.println("RELEASED");
+			}
+			theMap.getCharacter().setDirection(0);
+	}
+	
+	public boolean isPressed(int kc) {
+		if (KeyEvent.VK_A == (char)kc) {
+			theMap.getCharacter().setDirection(-1);
+			return true;
+		} else if (KeyEvent.VK_D == (char)kc) {
+			theMap.getCharacter().setDirection(1);
+			return true;
+		} else if (KeyEvent.VK_ESCAPE == (char)kc) {
+			System.exit(0);
+			return true;
+		} else if (KeyEvent.VK_W == (char)kc){
+			theMap.getCharacter().jump();
+			System.out.println("You just jumped mofo");
+			return true;
+		}
+		return false;
 	}
 
 	public void actionPerformed(ActionEvent e) {
