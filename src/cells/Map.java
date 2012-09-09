@@ -191,7 +191,12 @@ public class Map {
 	}
 
 	public void nextLevel() {
-		mapNum++;
+		if(mapNum == items.size()){
+			System.out.println("You win brohan");
+			System.exit(0);
+		}else{
+			mapNum++;
+		}
 		items = new ArrayList<Item>();
 		readMap();
 	}
