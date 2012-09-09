@@ -1,10 +1,15 @@
 package Screen;
 
 import java.util.*;
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.Timer;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
+import java.io.IOException;
+
 import cells.Map;
 import pxlJam.*;
 import cells.*;
@@ -21,7 +26,7 @@ public class ScreenPanel extends JPanel implements ActionListener, KeyListener {
 	Map theMap = new Map("levels/level3.txt");
 	HeadsUp headsUp = new HeadsUp();
 	HashSet<Cell> cellSet = new HashSet<Cell>();
-	
+	Image bgImage;
 
 	public ScreenPanel() {
 		setFocusable(true);
@@ -32,18 +37,29 @@ public class ScreenPanel extends JPanel implements ActionListener, KeyListener {
 		addKeyListener(this);
 		
 		cam = new Camera(theMap.getCharacter().getX(), theMap.getCharacter().getY());
+		
+		try {
+			bgImage = ImageIO.read(new File("Sprites/FACES.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void paintComponent(Graphics g) {
+		
 		requestFocusInWindow();
 		Graphics2D g2d = (Graphics2D) g;
 		Image offscreen = createImage(getWidth(), getHeight());
 		bufferGraphics = (Graphics2D) offscreen.getGraphics();
 		bufferGraphics.setColor(Color.white);
 		bufferGraphics.fillRect(0, 0, getWidth(), getHeight());
-		
+		drawBackground();
 		gameStuff();
 		g2d.drawImage(offscreen, 0, 0, this);
+	}
+	
+	public void drawBackground(){
+		bufferGraphics.drawImage(bgImage,0,0,getWidth(),getHeight(),null);
 	}
 	
 	private void gameStuff(){
