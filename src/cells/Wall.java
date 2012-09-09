@@ -50,5 +50,13 @@ public class Wall implements Cell{
 		return hit;
 	}
 	
+	public boolean isColoured(){
+		return false;
+	}
+	
+	public void setColoured(boolean c){
+		
+	}
+	
 	
 }

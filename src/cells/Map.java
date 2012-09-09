@@ -1,5 +1,5 @@
 package cells;
-
+import Screen.*;
 import java.awt.Graphics;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -15,6 +15,8 @@ public class Map {
 	private int height;
 
 	private File file;
+	private int blueCrayon = 100;
+	private static int MAX_CRAYON = 100;
 
 	public Map(String filename) {
 		file = new File(filename);
@@ -90,6 +92,12 @@ public class Map {
 	public void setCell(int x, int y, Cell c){
 		tiles[x][y] = c;
 	}
+	
+	public Cell getTile(int x, int y){
+		Cell newCell = tiles[x][y];
+		return newCell;
+		
+	}
 
 	public Cell[][] getTiles() {
 		return tiles;
@@ -100,6 +108,25 @@ public class Map {
 	}
 	public int getWidth(){
 		return width;
+	}
+	
+	public void setBlueCrayon(int i){
+		
+		blueCrayon += i;
+		if (blueCrayon < 0){
+			blueCrayon = 0;
+		}
+		if (blueCrayon > MAX_CRAYON){
+			blueCrayon = MAX_CRAYON;
+		}
+	}
+	
+	public int getBlue(){
+		return blueCrayon;
+	}
+	
+	public int getCrayons(){
+		return blueCrayon;
 	}
 	
 	

@@ -12,4 +12,6 @@ public interface Cell {
 	public Hitbox getHitbox();
 	public int getX();
 	public int getY();
+	public boolean isColoured();
+	public void setColoured(boolean c);
 }

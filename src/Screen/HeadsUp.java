@@ -4,6 +4,7 @@ import javax.swing.*;
 import javax.swing.Timer;
 import java.awt.*;
 import java.awt.event.*;
+import cells.Map;
 
 public class HeadsUp {
 	
@@ -16,12 +17,14 @@ public class HeadsUp {
 		
 	}
 	
-	public void draw(Graphics bf){
+	public void draw(Map theMap, Graphics bf){
 		
-		drawScore(bf);
+		drawScore(theMap, bf);
 		
 	}
-	public void drawScore (Graphics bf){
+	public void drawScore (Map theMap, Graphics bf){
+			
+		int blueCrayon = theMap.getBlue();
 		  ((Graphics2D) bf).setRenderingHint(
 			        RenderingHints.KEY_TEXT_ANTIALIASING,
 			        RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
