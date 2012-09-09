@@ -18,6 +18,7 @@ public class ScreenPanel extends JPanel implements ActionListener, KeyListener {
 	int xorigin, yorigin;
 	long lastTime = System.currentTimeMillis();
 	static long WAIT = 1000/30;
+	HeadsUp headUp = new HeadsUp();
 
 	public ScreenPanel() {
 		setFocusable(true);
@@ -39,12 +40,12 @@ public class ScreenPanel extends JPanel implements ActionListener, KeyListener {
 		bufferGraphics.fillRect(0, 0, getWidth(), getHeight());
 		
 		gameStuff();
-
 		g2d.drawImage(offscreen, 0, 0, this);
 	}
 	
 	private void gameStuff(){
 		theMap.draw(bufferGraphics);
+		headUp.draw(bufferGraphics);
 		theMap.getCharacter().move(theMap.getTiles());
 		cam.setX(theMap.getCharacter().getX());
 		bufferGraphics.translate(-cam.getX(), 0);
@@ -190,7 +191,6 @@ public class ScreenPanel extends JPanel implements ActionListener, KeyListener {
 			System.exit(0);
 		} else if (e.getKeyCode() == KeyEvent.VK_W){
 			theMap.getCharacter().jump();
-			System.out.println("You just jumped mofo");
 		}
 
 	}
@@ -199,10 +199,8 @@ public class ScreenPanel extends JPanel implements ActionListener, KeyListener {
 	public void keyReleased(KeyEvent e) {
 			if (e.getKeyChar() == 'a' || e.getKeyChar() == 'A') {
 				theMap.getCharacter().setDirection(0);
-				System.out.println("RELEASED");
 			} else if (e.getKeyChar() == 'd' || e.getKeyChar() == 'D') {
 				theMap.getCharacter().setDirection(0);
-				System.out.println("RELEASED");
 			}
 			theMap.getCharacter().setDirection(0);
 	}
@@ -219,7 +217,7 @@ public class ScreenPanel extends JPanel implements ActionListener, KeyListener {
 			return true;
 		} else if (KeyEvent.VK_W == (char)kc){
 			theMap.getCharacter().jump();
-			System.out.println("You just jumped mofo");
+	
 			return true;
 		}
 		return false;

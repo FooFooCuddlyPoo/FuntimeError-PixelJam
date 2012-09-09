@@ -16,7 +16,7 @@ public class DrawnWall implements Cell{
 	
 	public DrawnWall(int x, int y, long d, Map m){
 		hit = new Hitbox(x, y, Cell.CELL_WIDTH, Cell.CELL_HEIGHT);
-		c = Color.black;
+		c = Color.BLUE;
 		this.x = x;
 		this.y = y;
 		this.delay = d;
