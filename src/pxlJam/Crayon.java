@@ -204,7 +204,7 @@ public class Crayon {
 		this.x = x;
 	}
 
-	private int getY() {
+	public int getY() {
 		return y;
 	}
 

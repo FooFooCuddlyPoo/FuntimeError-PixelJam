@@ -11,13 +11,16 @@ import cells.*;
 
 @SuppressWarnings("serial")
 public class ScreenPanel extends JPanel implements ActionListener, KeyListener {
-
+	
 	Graphics2D bufferGraphics;
 	Map theMap = new Map("levels/level3.txt");
 	Camera cam;
 	int xorigin, yorigin;
 	long lastTime = System.currentTimeMillis();
 	static long WAIT = 1000/30;
+	
+	public int SCREEN_WIDTH;
+	public int SCREEN_HEIGHT;
 
 	public ScreenPanel() {
 		setFocusable(true);
@@ -27,7 +30,7 @@ public class ScreenPanel extends JPanel implements ActionListener, KeyListener {
 		addMouseMotionListener(mlist);
 		addKeyListener(this);
 		
-		cam = new Camera(theMap.getCharacter().getX());
+		cam = new Camera(theMap.getCharacter().getX(), theMap.getCharacter().getY());
 	}
 
 	public void paintComponent(Graphics g) {
@@ -44,10 +47,11 @@ public class ScreenPanel extends JPanel implements ActionListener, KeyListener {
 	}
 	
 	private void gameStuff(){
+		cam.setCamera(theMap.getCharacter());
+		bufferGraphics.translate(-cam.getX(), -cam.getY());
 		theMap.draw(bufferGraphics);
 		theMap.getCharacter().move(theMap.getTiles());
-		cam.setX(theMap.getCharacter().getX());
-		bufferGraphics.translate(-cam.getX(), 0);
+		bufferGraphics.translate(cam.getX(), cam.getY());
 	}
 
 	public void drawIntroScreen(Graphics2D g2d) {
