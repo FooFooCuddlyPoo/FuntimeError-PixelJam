@@ -265,8 +265,8 @@ public class Crayon {
 		return lives;
 	}
 
-	public void setLives(int lives) {
-		this.lives = lives;
+	public void incrementLives() {
+		this.lives++;
 	}
 	
 }
