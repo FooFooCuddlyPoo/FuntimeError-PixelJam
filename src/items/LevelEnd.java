@@ -33,7 +33,7 @@ public class LevelEnd implements Item{
 	
 	@Override
 	public void doAction(Map m) {
-		//m.nextLevel();
+		m.nextLevel();
 	}
 
 	@Override

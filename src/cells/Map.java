@@ -23,16 +23,37 @@ public class Map {
 	private static int MAX_CRAYON = 100;
 	
 	private ArrayList<Item> items;
+	
+	private ArrayList<String> maps;
+	private String allMaps;
+	private int mapNum;
 
 	public Map(String filename) {
+		maps = new ArrayList<String>();
+		allMaps = "levels/allLevels.txt";
+		mapNum = 0;
+		readAllMaps();
 		file = new File(filename);
 		items = new ArrayList<Item>();
 		readMap();
 	}
+	
+	private void readAllMaps(){
+		try {
+			Scanner scan = new Scanner(new File(allMaps));
+			
+			while(scan.hasNext()){
+				maps.add("levels/"+scan.nextLine());
+			}
+			scan.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
 
 	public void readMap() {
 		try {
-			Scanner scan = new Scanner(file);
+			Scanner scan = new Scanner(new File(maps.get(mapNum)));
 
 			height = scan.nextInt();
 			width = scan.nextInt();
@@ -152,5 +173,9 @@ public class Map {
 		return blueCrayon;
 	}
 	
-	
+	public void nextLevel(){
+		mapNum++;
+		items = new ArrayList<Item>();
+		readMap();
+	}
 }
