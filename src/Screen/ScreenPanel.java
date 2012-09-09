@@ -123,8 +123,8 @@ public class ScreenPanel extends JPanel implements ActionListener, KeyListener {
 		int xChange, yChange;
 
 		public void mousePressed(MouseEvent event) {
-			double x = event.getX();
-			double y = event.getY();
+			double x = event.getX() + cam.getX();
+			double y = event.getY() + cam.getY();
 			int xPos = (int) (x / Cell.CELL_WIDTH);
 			int yPos = (int) (y / Cell.CELL_HEIGHT);
 			if (xPos > 0 && xPos < theMap.getHeight() && yPos > 0 && yPos < theMap.getWidth()){
@@ -135,8 +135,8 @@ public class ScreenPanel extends JPanel implements ActionListener, KeyListener {
 		}
 
 		public void mouseDragged(MouseEvent event) {
-			double x = event.getX();
-			double y = event.getY();
+			double x = event.getX() + cam.getX();
+			double y = event.getY() + cam.getY();
 			int xPos = (int) (x / Cell.CELL_WIDTH);
 			int yPos = (int) (y / Cell.CELL_HEIGHT);
 			if (xPos > 0 && xPos < theMap.getHeight() && yPos > 0 && yPos < theMap.getWidth()){
