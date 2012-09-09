@@ -49,8 +49,11 @@ public class ScreenPanel extends JPanel implements ActionListener, KeyListener {
 	private void gameStuff(){
 		cam.setCamera(theMap.getCharacter());
 		bufferGraphics.translate(-cam.getX(), -cam.getY());
+		
 		theMap.draw(bufferGraphics);
 		theMap.getCharacter().move(theMap.getTiles());
+		theMap.checkItemCollision();
+		
 		bufferGraphics.translate(cam.getX(), cam.getY());
 		headsUp.draw(theMap,bufferGraphics);
 	}

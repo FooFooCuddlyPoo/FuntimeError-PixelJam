@@ -1,4 +1,5 @@
 package Screen;
+
 import java.util.*;
 import javax.swing.*;
 import javax.swing.Timer;
@@ -7,14 +8,12 @@ import java.awt.event.*;
 import cells.Map;
 
 public class HeadsUp {
-	
+
 	int blueCrayon = 100;
-	static int BAR_HEIGHT = 10; 
-	
-	HeadsUp(){
-		
-		
-		
+	static int BAR_HEIGHT = 10;
+
+	HeadsUp() {
+
 	}
 	
 	public void draw(Map theMap, Graphics bf){
@@ -36,12 +35,15 @@ public class HeadsUp {
 		  }
 
 	}
-	
-	public void setBlueCrayon(int change){
-		
-		this.blueCrayon += change;
-		
+
+	public void drawLives(Graphics bf) {
+
 	}
-	
+
+	public void setBlueCrayon(int change) {
+
+		this.blueCrayon += change;
+
+	}
 
 }

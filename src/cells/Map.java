@@ -3,9 +3,13 @@ import Screen.*;
 import java.awt.Graphics;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import pxlJam.Crayon;
+import items.Item;
+import items.Heart;
+import items.LevelEnd;
 
 public class Map {
 	private Cell[][] tiles;
@@ -17,9 +21,12 @@ public class Map {
 	private File file;
 	private int blueCrayon = 100;
 	private static int MAX_CRAYON = 100;
+	
+	private ArrayList<Item> items;
 
 	public Map(String filename) {
 		file = new File(filename);
+		items = new ArrayList<Item>();
 		readMap();
 	}
 
@@ -39,6 +46,10 @@ public class Map {
 						tempInt = scan.nextInt();
 						if (tempInt == 10)
 							character = new Crayon(j * Cell.CELL_WIDTH, i * Cell.CELL_HEIGHT, this);
+						else if(tempInt == 11)
+							items.add(new Heart(j * Cell.CELL_WIDTH, i * Cell.CELL_HEIGHT));
+						else if(tempInt == 12)
+							items.add(new LevelEnd(j * Cell.CELL_WIDTH, i * Cell.CELL_HEIGHT));
 						else {
 							tiles[i][j] = getWalltype(tempInt, j * Cell.CELL_WIDTH, i * Cell.CELL_HEIGHT);
 						}
@@ -68,18 +79,30 @@ public class Map {
 			for (int j = 0; j < tiles[i].length; j++) {
 				if (tiles[i][j] != null) {
 					tiles[i][j].draw(g);
-					if (tiles[i][j] != null && tiles[i][j].getHitbox() != null){
-						tiles[i][j].getHitbox().draw(g);
-					}
 				}
 				
 			}
 
+		for(Item i:items){
+			i.draw(g);
+		}
+		
 		if (character != null) {
 			character.draw(g);
-		}else{
-			System.out.println("Character is null");
 		}
+	}
+	
+	public void checkItemCollision(){
+		ArrayList<Item> temp = new ArrayList<Item>();
+	
+		for(Item i: items){
+			if(character.getHitbox().checkCollision(i.getHitbox())){
+				i.doAction(this);
+				temp.add(i);
+			}
+		}
+		
+		items.removeAll(temp);
 	}
 
 	public Crayon getCharacter() {
