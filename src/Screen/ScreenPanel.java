@@ -135,13 +135,9 @@ public class ScreenPanel extends JPanel implements ActionListener, KeyListener {
 				xorigin = xPos;
 				yorigin = yPos;
 				theMap.setCell(yPos, xPos, new DrawnWall(xPos * Cell.CELL_WIDTH, yPos * Cell.CELL_HEIGHT,2000,theMap));
-				Cell testCell = theMap.getTile(yPos,xPos);
-				if (!(testCell.isColoured())){
-					theMap.setBlueCrayon(-1);
-					testCell.setColoured(true);
-				}
-				
+				theMap.setBlueCrayon(-1);
 			}
+			
 		}
 
 		public void mouseDragged(MouseEvent event) {
@@ -161,8 +157,9 @@ public class ScreenPanel extends JPanel implements ActionListener, KeyListener {
 					}
 					xincrement+=xInc;
 					yincrement+=yInc;
+					
 				}
-				theMap.setBlueCrayon(-1);
+				theMap.setBlueCrayon(-2);
 				xorigin = xPos;
 				yorigin = yPos;
 			}
