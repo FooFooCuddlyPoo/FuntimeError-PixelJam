@@ -131,7 +131,7 @@ public class ScreenPanel extends JPanel implements ActionListener, KeyListener {
 			if (xPos > 0 && xPos < theMap.getHeight() && yPos > 0 && yPos < theMap.getWidth()){
 				xorigin = xPos;
 				yorigin = yPos;
-				theMap.setCell(yPos, xPos, new DrawnWall(xPos * Cell.CELL_WIDTH, yPos * Cell.CELL_HEIGHT,2000,theMap));
+				theMap.setCell(yPos, xPos, new DrawnWall(xPos * Cell.CELL_WIDTH, yPos * Cell.CELL_HEIGHT,2000,theMap,headsUp));
 				if (crayonColour == "blue"){
 					headsUp.setBlueCrayon(-1);
 				}
@@ -152,14 +152,13 @@ public class ScreenPanel extends JPanel implements ActionListener, KeyListener {
 				double xincrement = 0, yincrement=0;
 				while(Math.abs((xPos+xincrement) - xorigin) > 0.25 || Math.abs((yPos+yincrement) - yorigin) > 0.25){
 					if ((int)(xPos+(int)xincrement) > 0 && (int)(xPos+(int)xincrement) < theMap.getHeight() && (int)(yPos+(int)yincrement) > 0 && (int)(yPos+(int)yincrement) < theMap.getWidth()){
-					theMap.setCell((int)(yPos+(int)yincrement),(int)(xPos+(int)xincrement), new DrawnWall((int)((xPos+(int)xincrement)*Cell.CELL_WIDTH), (int)((yPos+(int)yincrement)*Cell.CELL_HEIGHT),2000,theMap));
+					theMap.setCell((int)(yPos+(int)yincrement),(int)(xPos+(int)xincrement), new DrawnWall((int)((xPos+(int)xincrement)*Cell.CELL_WIDTH), (int)((yPos+(int)yincrement)*Cell.CELL_HEIGHT),2000,theMap,headsUp));
 					}
 					xincrement+=xInc;
 					yincrement+=yInc;
-					
-				}
-				if (crayonColour == "blue"){
-					headsUp.setBlueCrayon(-1);
+					if (crayonColour == "blue"){
+						headsUp.setBlueCrayon(-1);
+					}
 				}
 				xorigin = xPos;
 				yorigin = yPos;
