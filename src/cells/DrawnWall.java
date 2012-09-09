@@ -2,7 +2,7 @@ package cells;
 
 import java.awt.Color;
 import java.awt.Graphics;
-
+import Screen.*;
 import pxlJam.Hitbox;
 
 public class DrawnWall implements Cell{
@@ -13,14 +13,16 @@ public class DrawnWall implements Cell{
 	long initialTime = System.currentTimeMillis();
 	long delay;
 	Map theMap;
+	HeadsUp headUp;
 	
-	public DrawnWall(int x, int y, long d, Map m){
+	public DrawnWall(int x, int y, long d, Map m, HeadsUp head){
 		hit = new Hitbox(x, y, Cell.CELL_WIDTH, Cell.CELL_HEIGHT);
 		c = Color.BLUE;
 		this.x = x;
 		this.y = y;
 		this.delay = d;
 		this.theMap = m;
+		this.headUp = head;
 	}
 
 	@Override
@@ -28,6 +30,7 @@ public class DrawnWall implements Cell{
 		if (System.currentTimeMillis() - initialTime > delay){
 			theMap.setCell(y / Cell.CELL_HEIGHT, x / Cell.CELL_WIDTH, null);
 			this.hit = null;
+			headUp.setBlueCrayon(+1);
 		}
 		else { 
 			g.setColor(c);
