@@ -19,8 +19,6 @@ public class ScreenPanel extends JPanel implements ActionListener, KeyListener {
 	long lastTime = System.currentTimeMillis();
 	static long WAIT = 1000/30;
 	
-	public int SCREEN_WIDTH;
-	public int SCREEN_HEIGHT;
 	
 	HeadsUp headUp = new HeadsUp();
 
@@ -51,9 +49,9 @@ public class ScreenPanel extends JPanel implements ActionListener, KeyListener {
 		cam.setCamera(theMap.getCharacter());
 		bufferGraphics.translate(-cam.getX(), -cam.getY());
 		theMap.draw(bufferGraphics);
-		headUp.draw(bufferGraphics);
 		theMap.getCharacter().move(theMap.getTiles());
 		bufferGraphics.translate(cam.getX(), cam.getY());
+		headUp.draw(bufferGraphics);
 	}
 
 	public void drawIntroScreen(Graphics2D g2d) {
