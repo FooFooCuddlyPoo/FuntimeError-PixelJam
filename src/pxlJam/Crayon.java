@@ -63,15 +63,15 @@ public class Crayon {
 			jumping = false;
 		}
 		
-		Hitbox sideHitBox = hitbox;
-		sideHitBox.setHitbox(sideHitBox.getX()+xSpeed,sideHitBox.getY(),sideHitBox.getWidth(),sideHitBox.getHeight());
-		if (checkSideCollision(sideHitBox,tiles)){
-			sideHit = true;
-		}
-		sideHitBox.setHitbox(sideHitBox.getX()-xSpeed,sideHitBox.getY(),sideHitBox.getWidth(),sideHitBox.getHeight());
-		if (checkSideCollision(sideHitBox,tiles)){
-			sideHit = true;
-		}
+		//Hitbox sideHitBox = hitbox;
+		//sideHitBox.setHitbox(sideHitBox.getX()+xSpeed,sideHitBox.getY(),sideHitBox.getWidth(),sideHitBox.getHeight());
+		//if (checkSideCollision(sideHitBox,tiles)){
+		//	sideHit = true;
+		//}
+		//sideHitBox.setHitbox(sideHitBox.getX()-xSpeed,sideHitBox.getY(),sideHitBox.getWidth(),sideHitBox.getHeight());
+		//if (checkSideCollision(sideHitBox,tiles)){
+		//	sideHit = true;
+		//}
 		if ((this.x+xSpeed)/Cell.CELL_WIDTH> 0 && !(sideHit)){
 			if (theMap.getHeight() - (((this.x)/Cell.CELL_WIDTH))>4){
 				this.x += xSpeed;
@@ -151,8 +151,6 @@ public class Crayon {
 	
 	private boolean checkSideCollision(Hitbox prospective, Cell[][] tiles){
 		int prospectiveY = prospective.getY()/Cell.CELL_HEIGHT;
-		System.out.println("PROSPECTIVE X = "+prospectiveY);
-		System.out.println("tiles.length = "+tiles.length);
 		if (prospectiveY > 0 && prospectiveY < tiles.length){
 			for(int i = 0; i < tiles[0].length; i++){
 				if(tiles[prospectiveY][i] != null && tiles[prospectiveY][i].getHitbox() != null && prospective.checkCollision(tiles[prospectiveY][i].getHitbox())){
