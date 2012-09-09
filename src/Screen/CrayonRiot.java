@@ -12,7 +12,7 @@ public class CrayonRiot extends JFrame {
 	public CrayonRiot(){
 		
 		setTitle("Crayon Riot");
-        setSize(900, 700);
+        setSize(1024, 720);
 		ScreenPanel sc = new ScreenPanel();
 		add(sc);
 		setVisible(true);

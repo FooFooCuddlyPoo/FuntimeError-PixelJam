@@ -72,9 +72,6 @@ public class Crayon {
 		if (checkSideCollision(sideHitBox,tiles)){
 			sideHit = true;
 		}
-		
-		System.out.println("MAP GET WIDHTH = "+theMap.getHeight());
-		System.out.println("x+xSpeed/Cell.CELL_WIDTH = "+((x+xSpeed)/Cell.CELL_WIDTH));
 		if ((this.x+xSpeed)/Cell.CELL_WIDTH> 0 && !(sideHit)){
 			if (theMap.getHeight() - (((this.x)/Cell.CELL_WIDTH))>4){
 				this.x += xSpeed;
@@ -93,27 +90,20 @@ public class Crayon {
 		if(falling){
 			Hitbox newFeet = feetBox;
 			newFeet.setHitbox(this.x, this.y+ySpeed, CRAYON_WIDTH, CRAYON_HEIGHT);
-			System.out.println("feetbox.getY = "+feetBox.getY());
-			System.out.println("tiles[0].length = "+tiles[0].length);
-			System.out.println("tiles.length = "+tiles.length);
 			for (int i = (feetBox.getY()/Cell.CELL_HEIGHT); i<tiles.length;i++){
 				if (i > 0){
 					for (int a = 0; a < 6; a++){
 						if (!collided&&tiles[i][(feetBox.getX()/Cell.CELL_WIDTH)+a] !=null){
 							collideY = i;
-							System.out.println(i);
 							collided = true;
 							break;
 						}
 					}
 				}
 			}
-			System.out.println("newFeet.getY()/cellheight = "+newFeet.getY()/Cell.CELL_HEIGHT);
-			System.out.println("collideY "+collideY);
 			if ((newFeet.getY()/Cell.CELL_HEIGHT)>=(collideY)){
 				if (collided){
 					this.y=(collideY*Cell.CELL_HEIGHT)-CRAYON_HEIGHT-1;
-					System.out.println("THIS IS COLLIDE Y = "+collideY);
 				}
 				else{
 					this.y += ySpeed;
@@ -137,7 +127,6 @@ public class Crayon {
 	
 	public void jump(){
 		if (System.currentTimeMillis() - jumpTime > 800 ){
-			System.out.println("NOT JUMPING");
 			ySpeed = -8;
 			this.y -= 2;
 			falling = true;
