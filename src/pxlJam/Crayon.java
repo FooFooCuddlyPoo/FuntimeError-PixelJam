@@ -29,10 +29,13 @@ public class Crayon {
 	long jumpTime = System.currentTimeMillis();
 	boolean jumping = false;
 	boolean moving = false;
+	
+	private int lives;
 
 	public Crayon(int x, int y, Map map){
 		this.x = x;
 		this.y = y;
+		lives = 3;
 		image = new ImageWrapper(filename);
 		hitbox = new Hitbox(x+12, y, CRAYON_WIDTH -30, CRAYON_HEIGHT);
 		feetBox = new Hitbox(x+15, y+(int)((CRAYON_HEIGHT*2)/3), CRAYON_WIDTH -30, (int)(CRAYON_HEIGHT/3));
@@ -234,6 +237,14 @@ public class Crayon {
 
 	public void setFalling(boolean falling) {
 		this.falling = falling;
+	}
+
+	public int getLives() {
+		return lives;
+	}
+
+	public void setLives(int lives) {
+		this.lives = lives;
 	}
 	
 }
