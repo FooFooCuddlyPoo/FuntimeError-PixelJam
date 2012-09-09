@@ -1,4 +1,5 @@
 package cells;
+
 import Screen.*;
 import java.awt.Graphics;
 import java.io.File;
@@ -21,9 +22,9 @@ public class Map {
 	private File file;
 	private int blueCrayon = 100;
 	private static int MAX_CRAYON = 100;
-	
+
 	private ArrayList<Item> items;
-	
+
 	private ArrayList<String> maps;
 	private String allMaps;
 	private int mapNum;
@@ -37,13 +38,13 @@ public class Map {
 		items = new ArrayList<Item>();
 		readMap();
 	}
-	
-	private void readAllMaps(){
+
+	private void readAllMaps() {
 		try {
 			Scanner scan = new Scanner(new File(allMaps));
-			
-			while(scan.hasNext()){
-				maps.add("levels/"+scan.nextLine());
+
+			while (scan.hasNext()) {
+				maps.add("levels/" + scan.nextLine());
 			}
 			scan.close();
 		} catch (FileNotFoundException e) {
@@ -52,30 +53,44 @@ public class Map {
 	}
 
 	public void readMap() {
+		Scanner scan;
 		try {
-			Scanner scan = new Scanner(new File(maps.get(mapNum)));
+			scan = new Scanner(new File(maps.get(mapNum)));
 
 			height = scan.nextInt();
 			width = scan.nextInt();
-			
-			tiles = new Cell[width][height];
-			int tempInt;
 
-			for (int i = 0; i < width; i++) {
-				for (int j = 0; j < height; j++) {
-					if (scan.hasNext()) {
-						tempInt = scan.nextInt();
+			tiles = new Cell[width][height];
+			
+			String tempLine;
+			int linesBeen = 0;
+			while(scan.hasNext()){
+				tempLine = scan.nextLine();
+				
+				Scanner lineScan = new Scanner(tempLine);
+				
+				int runLength;
+				int tempInt;
+				
+				int tilesBeen = 0;
+				while(lineScan.hasNext()){
+					runLength = lineScan.nextInt();
+					tempInt = lineScan.nextInt();
+					
+					for(int i = 0; i < runLength; i++){
 						if (tempInt == 10)
-							character = new Crayon(j * Cell.CELL_WIDTH, i * Cell.CELL_HEIGHT, this);
-						else if(tempInt == 11)
-							items.add(new Heart(j * Cell.CELL_WIDTH, i * Cell.CELL_HEIGHT));
-						else if(tempInt == 12)
-							items.add(new LevelEnd(j * Cell.CELL_WIDTH, i * Cell.CELL_HEIGHT));
+							character = new Crayon(tilesBeen * Cell.CELL_WIDTH, linesBeen * Cell.CELL_HEIGHT, this);
+						else if (tempInt == 11)
+							items.add(new Heart(tilesBeen * Cell.CELL_WIDTH, linesBeen * Cell.CELL_HEIGHT));
+						else if (tempInt == 12)
+							items.add(new LevelEnd(tilesBeen * Cell.CELL_WIDTH, linesBeen * Cell.CELL_HEIGHT));
 						else {
-							tiles[i][j] = getWalltype(tempInt, j * Cell.CELL_WIDTH, i * Cell.CELL_HEIGHT);
+							tiles[linesBeen][tilesBeen] = getWalltype(tempInt, tilesBeen * Cell.CELL_WIDTH, linesBeen * Cell.CELL_HEIGHT);
 						}
+						tilesBeen++;
 					}
 				}
+				linesBeen++;
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -101,28 +116,28 @@ public class Map {
 				if (tiles[i][j] != null) {
 					tiles[i][j].draw(g);
 				}
-				
+
 			}
 
-		for(Item i:items){
+		for (Item i : items) {
 			i.draw(g);
 		}
-		
+
 		if (character != null) {
 			character.draw(g);
 		}
 	}
-	
-	public void checkItemCollision(){
+
+	public void checkItemCollision() {
 		ArrayList<Item> temp = new ArrayList<Item>();
-	
-		for(Item i: items){
-			if(character.getHitbox().checkCollision(i.getHitbox())){
+
+		for (Item i : items) {
+			if (character.getHitbox().checkCollision(i.getHitbox())) {
 				i.doAction(this);
 				temp.add(i);
 			}
 		}
-		
+
 		items.removeAll(temp);
 	}
 
@@ -133,47 +148,49 @@ public class Map {
 	public void setCharacter(Crayon character) {
 		this.character = character;
 	}
-	public void setCell(int x, int y, Cell c){
+
+	public void setCell(int x, int y, Cell c) {
 		tiles[x][y] = c;
 	}
-	
-	public Cell getTile(int x, int y){
+
+	public Cell getTile(int x, int y) {
 		Cell newCell = tiles[x][y];
 		return newCell;
-		
+
 	}
 
 	public Cell[][] getTiles() {
 		return tiles;
 	}
-	
-	public int getHeight(){
+
+	public int getHeight() {
 		return height;
 	}
-	public int getWidth(){
+
+	public int getWidth() {
 		return width;
 	}
-	
-	public void setBlueCrayon(int i){
-		
+
+	public void setBlueCrayon(int i) {
+
 		blueCrayon += i;
-		if (blueCrayon < 0){
+		if (blueCrayon < 0) {
 			blueCrayon = 0;
 		}
-		if (blueCrayon > MAX_CRAYON){
+		if (blueCrayon > MAX_CRAYON) {
 			blueCrayon = MAX_CRAYON;
 		}
 	}
-	
-	public int getBlue(){
+
+	public int getBlue() {
 		return blueCrayon;
 	}
-	
-	public int getCrayons(){
+
+	public int getCrayons() {
 		return blueCrayon;
 	}
-	
-	public void nextLevel(){
+
+	public void nextLevel() {
 		mapNum++;
 		items = new ArrayList<Item>();
 		readMap();
