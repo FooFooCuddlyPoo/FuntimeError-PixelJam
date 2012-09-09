@@ -19,7 +19,6 @@ public class Map {
 	private int width;
 	private int height;
 
-	private File file;
 	private int blueCrayon = 100;
 	private static int MAX_CRAYON = 100;
 
@@ -29,12 +28,11 @@ public class Map {
 	private String allMaps;
 	private int mapNum;
 
-	public Map(String filename) {
+	public Map() {
 		maps = new ArrayList<String>();
 		allMaps = "levels/allLevels.txt";
 		mapNum = 0;
 		readAllMaps();
-		file = new File(filename);
 		items = new ArrayList<Item>();
 		readMap();
 	}
