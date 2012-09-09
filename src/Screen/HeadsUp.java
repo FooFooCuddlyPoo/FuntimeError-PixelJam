@@ -15,29 +15,33 @@ public class HeadsUp {
 	HeadsUp() {
 
 	}
-	
-	public void draw(Map theMap, Graphics bf){
-		
+
+	public void draw(Map theMap, Graphics bf) {
+
 		drawScore(theMap, bf);
-		
+		drawLives(theMap, bf);
+
 	}
-	public void drawScore (Map theMap, Graphics bf){
-			
+
+	public void drawScore(Map theMap, Graphics bf) {
+
 		int blueCrayon = theMap.getBlue();
-		  ((Graphics2D) bf).setRenderingHint(
-			        RenderingHints.KEY_TEXT_ANTIALIASING,
-			        RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
-		  bf.setFont(new Font("Helvetica", Font.BOLD, 20));
-		  bf.setColor(Color.BLUE);
-		  bf.drawString("BLUE CRAYON", 30, 30);
-		  if (blueCrayon > 0){
-			  bf.fillRect(200, 50, blueCrayon, BAR_HEIGHT);
-		  }
+		((Graphics2D) bf).setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
+		bf.setFont(new Font("Helvetica", Font.BOLD, 20));
+		bf.setColor(Color.BLUE);
+		bf.drawString("BLUE CRAYON", 30, 30);
+		if (blueCrayon > 0) {
+			bf.fillRect(200, 50, blueCrayon, BAR_HEIGHT);
+		}
 
 	}
 
-	public void drawLives(Graphics bf) {
-
+	public void drawLives(Map m, Graphics bf) {
+		int lives = m.getCharacter().getLives();
+		((Graphics2D) bf).setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
+		bf.setFont(new Font("Helvetica", Font.BOLD, 20));
+		bf.setColor(Color.BLUE);
+		bf.drawString("LIVES: "+lives, 900, 30);
 	}
 
 	public void setBlueCrayon(int change) {
