@@ -31,8 +31,12 @@ public class Crayon {
 	boolean moving = false;
 	
 	private int lives;
+	private final int startPosX;
+	private final int startPosY;
 
 	public Crayon(int x, int y, Map map){
+		startPosX = x;
+		startPosY = y;
 		this.x = x;
 		this.y = y;
 		lives = 3;
@@ -125,7 +129,27 @@ public class Crayon {
 		}
 		hitbox.setHitbox(this.x+15, this.y, CRAYON_WIDTH-30, CRAYON_HEIGHT);
 		feetBox.setHitbox(x+15, y+(CRAYON_HEIGHT*2)/3, CRAYON_WIDTH -30, CRAYON_HEIGHT/3);
-
+		
+		if(y+CRAYON_HEIGHT >= 2*tiles.length*Cell.CELL_HEIGHT){
+			if(lives <= 0){
+				System.out.println("You lost brohan");
+				System.exit(0);
+			}
+			
+			
+			lives--;
+			resetChar();
+		}
+	}
+	
+	private void resetChar(){
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		this.x = startPosX;
+		this.y = startPosY;
 	}
 	
 	public void jump(){
@@ -184,8 +208,6 @@ public class Crayon {
 			image.draw(g, x, y, CRAYON_WIDTH, CRAYON_HEIGHT, spriteStage, true);
 		else
 			image.draw(g, x, y, CRAYON_WIDTH, CRAYON_HEIGHT, spriteStage, false);
-		hitbox.draw(g);
-		feetBox.draw(g);
 	}
 
 	public int getX() {

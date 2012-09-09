@@ -16,9 +16,8 @@ public class HeadsUp {
 	}
 	
 	public void draw(Graphics bf){
-		
 		drawScore(bf);
-		
+		drawLives(bf);
 	}
 	public void drawScore (Graphics bf){
 		  ((Graphics2D) bf).setRenderingHint(
@@ -26,9 +25,10 @@ public class HeadsUp {
 			        RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
 		  bf.setFont(new Font("Helvetica", Font.BOLD, 15));
 		  bf.drawString("SCORE ", 20, 20);
-		  
-
 	}
 	
+	public void drawLives(Graphics bf){
+		
+	}
 
 }

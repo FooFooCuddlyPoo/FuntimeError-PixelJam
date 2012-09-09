@@ -66,17 +66,12 @@ public class Map {
 			for (int j = 0; j < tiles[i].length; j++) {
 				if (tiles[i][j] != null) {
 					tiles[i][j].draw(g);
-					if (tiles[i][j] != null && tiles[i][j].getHitbox() != null){
-						tiles[i][j].getHitbox().draw(g);
-					}
 				}
 				
 			}
 
 		if (character != null) {
 			character.draw(g);
-		}else{
-			System.out.println("Character is null");
 		}
 	}
 
