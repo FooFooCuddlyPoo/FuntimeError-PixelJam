@@ -23,7 +23,7 @@ public class ScreenPanel extends JPanel implements ActionListener, KeyListener {
 	String crayonColour = "blue";
 	long lastTime = System.currentTimeMillis();
 	static long WAIT = 1000/30;
-	Map theMap = new Map("levels/level3.txt");
+	Map theMap = new Map();
 	HeadsUp headsUp = new HeadsUp();
 	HashSet<Cell> cellSet = new HashSet<Cell>();
 	Image bgImage;
