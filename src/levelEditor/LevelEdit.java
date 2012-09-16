@@ -51,7 +51,7 @@ public class LevelEdit implements UIMouseListener, UIButtonListener {
 		height = UI.askInt("What is the height of the map?");
 		gamePosition = UI.askInt("Where would you like the map to come in the level order?");
 
-		level = new File(filename + ".txt");
+		level = new File(filename + ".txt");  //Im not adding "levels/"+ to the start just yet so i can distinguish between levelEdit test levels and real levels
 		if (!level.exists()) {
 			try {
 				level.createNewFile();
@@ -78,7 +78,8 @@ public class LevelEdit implements UIMouseListener, UIButtonListener {
 
 			for (int h = 0; h < map.length; h++) {
 				for (int w = 0; w < map[0].length; w++) {
-
+					if(map[h][w] != null)
+						out.print("1   ");
 				}
 				out.println();
 			}
