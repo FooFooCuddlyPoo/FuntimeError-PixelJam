@@ -1,15 +1,20 @@
 package levelEditor;
 
 import java.awt.Color;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Scanner;
 
+import javax.imageio.ImageIO;
 import javax.swing.JColorChooser;
 
+import pxlJam.Crayon;
+
 import cells.Cell;
+import cells.Wall;
 
 import comp102.*;
 
@@ -24,15 +29,20 @@ public class LevelEdit implements UIMouseListener, UIButtonListener {
 
 	private int gamePosition;
 
+	private BufferedImage charImg;
+	private int charX = -10;
+	private int charY = -10;
+	private boolean setChar = false;
+
 	private Color c;
 
 	public LevelEdit() {
+		init();
 		UI.setMouseListener(this);
 		UI.setMouseMotionListener(this);
 		UI.addButton("Choose Colour", this);
 		UI.addButton("Finish", this);
-		init();
-
+		UI.addButton("Place Character", this);
 	}
 
 	public void init() {
@@ -50,48 +60,68 @@ public class LevelEdit implements UIMouseListener, UIButtonListener {
 			}
 		}
 
+		try {
+			charImg = ImageIO.read(new File("Sprites/crayonMovementNew.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		charImg = charImg.getSubimage(0, 0, Crayon.CRAYON_WIDTH, Crayon.CRAYON_HEIGHT);
+
 		map = new Cell[height][width];
 	}
 
 	public void writeMap() {
 		try {
 			PrintStream out = new PrintStream(level);
-			out.println(""+width+"  "+height);
-			
+			out.println("" + width + "  " + height);
+
 			for (int h = 0; h < map.length; h++) {
 				for (int w = 0; w < map[0].length; w++) {
-					
+
 				}
 				out.println();
 			}
 			out.close();
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
 	@Override
 	public void mousePerformed(String action, double x, double y) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void mouseDragged(String action, double x, double y) {
-
-	}
-	
-	public void draw(){
-		UI.clearGraphics(false);
-		UI.setColor(c);
-		for(int h = 0; h < map.length; h++){
-			for(int w = 0; w < map[0].length; w++){
-				UI.fillRect(w*Cell.CELL_WIDTH, h*Cell.CELL_HEIGHT, Cell.CELL_WIDTH, Cell.CELL_HEIGHT, false);
+		if (x < width * Cell.CELL_WIDTH && y < height * Cell.CELL_HEIGHT) {
+			if (action.equals("pressed")) {
+				if (setChar) {
+					charX = (int) x - 20;
+					charY = (int) y - 5;
+					setChar = false;
+				}
+			}
+			if (action.equals("dragged")) {
+				add((int) x, (int) y);
 			}
 		}
-		
+		draw();
+	}
+
+	public void add(int x, int y) {
+		map[y / Cell.CELL_HEIGHT][x / Cell.CELL_WIDTH] = new Wall(x, y);
+	}
+
+	public void draw() {
+		UI.clearGraphics(false);
+		UI.setColor(c);
+		for (int h = 0; h < map.length; h++) {
+			for (int w = 0; w < map[0].length; w++) {
+				if (map[h][w] != null) UI.fillRect(w * Cell.CELL_WIDTH, h * Cell.CELL_HEIGHT, Cell.CELL_WIDTH, Cell.CELL_HEIGHT, false);
+			}
+		}
+
+		if (charX >= 0 && charY >= 0) UI.drawImage(charImg, charX, charY, Crayon.CRAYON_WIDTH, Crayon.CRAYON_HEIGHT, false);
+
 		UI.repaintGraphics();
-		
+
 	}
 
 	@Override
@@ -101,10 +131,11 @@ public class LevelEdit implements UIMouseListener, UIButtonListener {
 			if (temp != null) {
 				c = temp;
 			}
-		}
-		if(name.equals("Finish")){
+		} else if (name.equals("Finish")) {
 			writeMap();
 			System.exit(0);
+		} else if (name.equals("Place Character")) {
+			setChar = true;
 		}
 
 	}
