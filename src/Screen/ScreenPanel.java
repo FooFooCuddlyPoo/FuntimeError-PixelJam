@@ -46,7 +46,6 @@ public class ScreenPanel extends JPanel implements ActionListener, KeyListener {
 	}
 
 	public void paintComponent(Graphics g) {
-		
 		requestFocusInWindow();
 		Graphics2D g2d = (Graphics2D) g;
 		Image offscreen = createImage(getWidth(), getHeight());
@@ -63,6 +62,7 @@ public class ScreenPanel extends JPanel implements ActionListener, KeyListener {
 	}
 	
 	private void gameStuff(){
+		System.out.println("Main thingy called");
 		cam.setCamera(theMap.getCharacter());
 		bufferGraphics.translate(-cam.getX(), -cam.getY());
 		
