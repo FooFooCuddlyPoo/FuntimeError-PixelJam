@@ -1,3 +1,2 @@
-ultraLevel
-compressed.txt
-another.txt
+TestLevl.txt
+OrderChangingTest.txt

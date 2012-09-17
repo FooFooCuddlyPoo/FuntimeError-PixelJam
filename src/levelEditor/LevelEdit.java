@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import javax.imageio.ImageIO;
@@ -41,17 +42,18 @@ public class LevelEdit implements UIMouseListener, UIButtonListener {
 		UI.setMouseListener(this);
 		UI.setMouseMotionListener(this);
 		UI.addButton("Choose Colour", this);
-		UI.addButton("Finish", this);
 		UI.addButton("Place Character", this);
+		UI.addButton("Save", this);
+		UI.addButton("Exit", this);
 	}
 
 	public void init() {
 		filename = UI.askString("What is the name of the level? ");
 		width = UI.askInt("What is the width of the map?");
 		height = UI.askInt("What is the height of the map?");
-		gamePosition = UI.askInt("Where would you like the map to come in the level order?");
+		gamePosition = UI.askInt("Where would you like the map to come in the level order (0 for no where)?");
 
-		level = new File(filename + ".txt");  //Im not adding "levels/"+ to the start just yet so i can distinguish between levelEdit test levels and real levels
+		level = new File("levels/" + filename + ".txt");
 		if (!level.exists()) {
 			try {
 				level.createNewFile();
@@ -78,8 +80,10 @@ public class LevelEdit implements UIMouseListener, UIButtonListener {
 
 			for (int h = 0; h < map.length; h++) {
 				for (int w = 0; w < map[0].length; w++) {
-					if(map[h][w] != null)
-						out.print("1   ");
+					if (charX / Cell.CELL_WIDTH == w && charX / Cell.CELL_HEIGHT == h) out.print("10  ");
+					if (map[h][w] != null) out.print("1   ");
+					else
+						out.print("0   ");
 				}
 				out.println();
 			}
@@ -87,11 +91,45 @@ public class LevelEdit implements UIMouseListener, UIButtonListener {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
+
+		changeLevelOrder();
+	}
+
+	public void changeLevelOrder() {
+		if (gamePosition <= 0) return;
+		try {
+			Scanner scan = new Scanner(new File("levels/allLevels.txt"));
+
+			ArrayList<String> temp = new ArrayList<String>();
+
+			while (scan.hasNext()) {
+				temp.add(scan.nextLine());
+			}
+
+			if (!temp.contains(filename + ".txt")) {
+
+				if (gamePosition > temp.size()) temp.add(filename + ".txt");
+				else {
+					temp.add(gamePosition - 1, filename + ".txt");
+				}
+			}
+
+			PrintStream out = new PrintStream(new File("levels/allLevels.txt"));
+
+			for (String s : temp) {
+				out.println(s);
+			}
+
+			out.close();
+			scan.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void mousePerformed(String action, double x, double y) {
-		if (x < width * Cell.CELL_WIDTH && y < height * Cell.CELL_HEIGHT) {
+		if (x < width * Cell.CELL_WIDTH && y < height * Cell.CELL_HEIGHT && x >= 0 && y >= 0) {
 			if (action.equals("pressed")) {
 				if (setChar) {
 					charX = (int) x - 20;
@@ -132,11 +170,12 @@ public class LevelEdit implements UIMouseListener, UIButtonListener {
 			if (temp != null) {
 				c = temp;
 			}
-		} else if (name.equals("Finish")) {
+		} else if (name.equals("Save")) {
 			writeMap();
-			System.exit(0);
 		} else if (name.equals("Place Character")) {
 			setChar = true;
+		} else if (name.equals("Exit")) {
+			System.exit(0);
 		}
 
 	}

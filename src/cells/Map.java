@@ -49,8 +49,38 @@ public class Map {
 			e.printStackTrace();
 		}
 	}
+	
+	public void readMap(){
+		try {
+			Scanner scan = new Scanner(new File(maps.get(mapNum)));
+			height = scan.nextInt();
+			width = scan.nextInt();
 
-	public void readMap() {
+			tiles = new Cell[width][height];
+			
+			int tempInt;
+			
+			for(int h = 0; h < tiles.length; h++){
+				for(int w = 0; w < tiles[0].length; w++){
+					tempInt = scan.nextInt();
+					
+					if (tempInt == 10)
+						character = new Crayon(w * Cell.CELL_WIDTH, h * Cell.CELL_HEIGHT, this);
+					else if (tempInt == 11)
+						items.add(new Heart(w * Cell.CELL_WIDTH, h * Cell.CELL_HEIGHT));
+					else if (tempInt == 12)
+						items.add(new LevelEnd(w * Cell.CELL_WIDTH, h * Cell.CELL_HEIGHT));
+					else {
+						tiles[h][w] = getWalltype(tempInt, w * Cell.CELL_WIDTH, h * Cell.CELL_HEIGHT);
+					}
+				}
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void readCompressedMap() {
 		Scanner scan;
 		try {
 			scan = new Scanner(new File(maps.get(mapNum)));
